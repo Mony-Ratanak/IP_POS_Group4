@@ -28,7 +28,7 @@ class POSController extends MainController
             ->with([
 
                 // Eager load products related to each product type
-                'products:id,name,image,type_id,unit_price'
+                'products:id,name,image,type_id,unit_price,quantity,des'
             ])
             ->get();
 
@@ -96,6 +96,7 @@ class POSController extends MainController
     {
         // ===>> Check validation
         $this->validate($req, [
+            'customer_id' => 'required|exists:user,id',
             'cart'      => 'required|json'
         ]);
 
@@ -105,6 +106,7 @@ class POSController extends MainController
         // ===>> Create order
         $order                  = new Order;
         $order->cashier_id      = $user->id;
+        $order->customer_id      = $req->customer_id;
         $order->total_price     = 0;
         $order->receipt_number  = $this->_generateReceiptNumber();
         $order->save();
@@ -114,32 +116,57 @@ class POSController extends MainController
         $totalPrice     = 0;
         $cart           = json_decode($req->cart); // Decode JSON string to PHP array
 
-        foreach ($cart as $productId => $qty) {
+        // foreach ($cart as $productId => $qty) {
 
+        //     $product = Product::find($productId);
+
+        //     if ($product && is_numeric($qty)) {
+
+        //         $details[] = [
+        //             'order_id'      => $order->id,
+        //             'product_id'    => $productId,
+        //             'qty'           => $qty,
+        //             'unit_price'    => $product->unit_price,
+        //         ];
+
+        //         $totalPrice += $qty * $product->unit_price;
+        //     }
+        // }
+
+        foreach ($cart as $productId => $qty) {
             $product = Product::find($productId);
 
-            if ($product && is_numeric($qty)) {
+            if ($product && is_numeric($qty) && $qty > 0) {
 
-                $details[] = [
-                    'order_id'      => $order->id,
-                    'product_id'    => $productId,
-                    'qty'           => $qty,
-                    'unit_price'    => $product->unit_price,
-                ];
+                if ($product->quantity >= $qty) { // Check if enough stock is available
+                    $details[] = [
+                        'order_id' => $order->id,
+                        'product_id' => $productId,
+                        'qty' => $qty,
+                        'unit_price' => $product->unit_price,
+                    ];
 
-                $totalPrice += $qty * $product->unit_price;
+                    $totalPrice += $qty * $product->unit_price;
+
+                    // Reduce the product's stock
+                    $product->quantity -= $qty;
+                    $product->save();
+                } else {
+                    return response()->json([
+                        'message' => "Product '{$product->name}' is out of stock. Available stock: {$product->stock}",
+                    ], Response::HTTP_BAD_REQUEST);
+                }
             }
+        }
+
+        if (empty($details)) {
+            return response()->json([
+                'message' => 'Order creation failed: no valid products found in cart',
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         // ===>> Save to detail
         Detail::insert($details);
-        // if (!empty($details)) {
-        //     Detail::insert($details);
-        // } else {
-        //     return response()->json([
-        //         'message'   => 'Order creation failed: no valid products found in cart',
-        //     ], Response::HTTP_BAD_REQUEST);
-        // }
 
         // ===>> Update order
         $order->total_price     = $totalPrice;

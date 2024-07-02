@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
             [
                 ['name' => 'Admin'],
                 ['name' => 'Staff'],
+                ['name' => 'Customer'],
             ]
         );
         /*
@@ -34,15 +35,26 @@ class UserSeeder extends Seeder
         $users =  [
             [
                 'type_id'       => 1,
-                'email'         => 'yimklok.kh@gmail.com',
+                'email'         => 'admin@gmail.com',
                 'phone'         => '0977779688',
                 'password'      => bcrypt('123456'),
                 'is_active'     => 1,
-                'name'          => 'Yim Klok',
+                'name'          => 'admin',
                 'avatar'        => 'static/icon/user.png',
                 'created_at'    => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'    =>  Carbon::now()->format('Y-m-d H:i:s')
 
+            ],
+            [
+                'type_id'       => 2,
+                'email'         => 'hychin123@gmail.com',
+                'phone'         => '0968486789',
+                'password'      => bcrypt('123456'),
+                'is_active'     => 1,
+                'name'          => 'Hy Chin',
+                'avatar'        => 'static/icon/user.png',
+                'created_at'    => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'    => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'type_id'       => 2,

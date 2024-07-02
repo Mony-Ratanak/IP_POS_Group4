@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('image', 500)->nullable();
             $table->double('unit_price')->nullable();
             $table->string('des', 250)->default('');
+            $table->integer('quantity')->default(0);
             $table->decimal('discount', 10, 2)->default(0);
 
             $table->timestamps();

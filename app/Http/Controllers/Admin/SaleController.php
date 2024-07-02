@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 // ================================>> Third party library
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-// ================================>> Cistom Library
+// ================================>> Custom Library
 use App\Http\Controllers\MainController;
 use App\Models\Order\Order;
 
@@ -37,6 +37,8 @@ class SaleController extends MainController
                 'cashier', //M:1
                 'details'   // 1:M
             ]);
+            $data->leftJoin('user as customer', 'order.customer_id', '=', 'customer.id')
+            ->select('order.*', 'customer.name as customer_name');
         // ->orderBy('id', 'desc')
         // ->paginate($req->limit ? $req->limit : 10);
 

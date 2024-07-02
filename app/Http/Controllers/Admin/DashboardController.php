@@ -24,6 +24,9 @@ class DashboardController extends MainController
 
         // Total orders
         $orderCount = Order::count();
+        $totalNumberOfCustomer = DB::table('user')
+            ->where('type_id', 3)
+            ->count();
 
         // Most ordered products with details
         $mostOrderedProducts = DB::table('order_details')
@@ -34,8 +37,13 @@ class DashboardController extends MainController
             ->get();
 
             $lastTenOrderProducts = DB::table('order_details')
+            ->join('order', 'order_details.order_id', '=', 'order.id')
+            ->join('user as customer', 'order.customer_id', '=', 'customer.id')
             ->join('product', 'order_details.product_id', '=', 'product.id')
             ->select(
+                'order.customer_id',
+                'customer.avatar as avatar',
+                'customer.name as customer_name',
                 'order_details.product_id',
                 'product.name as product_name',
                 'order_details.unit_price',
@@ -44,6 +52,7 @@ class DashboardController extends MainController
             ->orderByDesc('order_details.id')
             ->limit(10)
             ->get();
+        
 
         // Fetch details for each product
         $productsDetails = [];
@@ -58,6 +67,7 @@ class DashboardController extends MainController
         $data = [
             'total_sale_today' => $totalSaleToday,
             'total_orders' => $orderCount,
+            'total_customers' => $totalNumberOfCustomer,
             'most_ordered_products' => $productsDetails,
             'lastTenOrderProducts' => $lastTenOrderProducts,
         ];

@@ -69,6 +69,7 @@ class ProductController extends MainController
                 'unit_price'            => 'required|numeric',
                 'type_id'               => 'required|exists:products_type,id',
                 'des'                   => 'required|max:50',
+                'quantity'              => 'required|numeric',
             ],
             [
                 'name.required'         => 'សូមបញ្ចូលឈ្មោះផលិតផល',
@@ -90,6 +91,7 @@ class ProductController extends MainController
         $pro->name     = $req->name;
         $pro->code     = $req->code;
         $pro->des      = $req->des;
+        $pro->quantity = $req->quantity;
         $pro->type_id  = $req->type_id;
         $pro->unit_price = $req->unit_price;
 
@@ -128,6 +130,7 @@ class ProductController extends MainController
                 'unit_price'            => 'required|numeric',
                 'type_id'               => 'required|exists:products_type,id',
                 'des'                   => 'required|max:50',
+                'quantity'              => 'required|numeric',
             ],
             [
                 'name.required'         => 'សូមបញ្ចូលឈ្មោះផលិតផល',
@@ -151,6 +154,7 @@ class ProductController extends MainController
             $product->name          = $req->name;
             $product->code          = $req->code;
             $product->type_id       = $req->type_id;
+            $product->quantity      = $req->quantity;
             $product->unit_price    = $req->unit_price;
             $product->des           = $req->des;
 

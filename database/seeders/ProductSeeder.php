@@ -13,31 +13,43 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-         DB::table('products_type')->insert(
+        DB::table('products_type')->insert(
             [
-                ['name' => 'Hot Dishes',
-                'created_at' => now(),
-                'updated_at' => now()],
+                [
+                    'name' => 'Hot Dishes',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
 
-                ['name' => 'Cold Dishes',
-                'created_at' => now(),
-                'updated_at' => now()],
+                [
+                    'name' => 'Cold Dishes',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
 
-                ['name' => 'Soup',
-                'created_at' => now(),
-                'updated_at' => now()],
+                [
+                    'name' => 'Soup',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
 
-                ['name' => 'Grill',
-                'created_at' => now(),
-                'updated_at' => now()],
+                [
+                    'name' => 'Grill',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
 
-                ['name' => 'Appetizer',
-                'created_at' => now(),
-                'updated_at' => now()],
+                [
+                    'name' => 'Appetizer',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
 
-                ['name' => 'Dessert',
-                'created_at' => now(),
-                'updated_at' => now()],
+                [
+                    'name' => 'Dessert',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
 
             ]
         );
@@ -53,9 +65,10 @@ class ProductSeeder extends Seeder
                     'code' => 'G001',
                     'type_id' => '1',
                     'name' => 'Super Mario Odyssey',
-                    'des'  => '11 Bowls available',
+                    'des'  => '12 Bowls available',
                     'unit_price' => 49.99,
                     'image' => 'static/Products/Platformer/SuperMarioOdyssey.jpg',
+                    'quantity' => 3, // Set quantity as an integer
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
@@ -63,9 +76,10 @@ class ProductSeeder extends Seeder
                     'code' => 'G002',
                     'type_id' => '1',
                     'name' => 'Call of Duty: Modern Warfare',
-                    'des'  => '11 Bowls available',
+                    'des'  => '11 Bowls available for customers',
                     'unit_price' => 59.99,
                     'image' => 'static/Products/Action/CallOfDutyModernWarfare.jpg',
+                    'quantity' => 3,
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
@@ -73,8 +87,9 @@ class ProductSeeder extends Seeder
                     'code' => 'G003',
                     'type_id' => '2',
                     'name' => 'The Legend of Zelda: Breath of the Wild',
-                    'des'  => '11 Bowls available',
+                    'des'  => '5 Bowls available',
                     'unit_price' => 59.99,
+                    'quantity' => 3,
                     'image' => 'static/Products/Adventure/LegendOfZeldaBreathOfTheWild.jpg',
                     'created_at' => now(),
                     'updated_at' => now()
@@ -83,8 +98,9 @@ class ProductSeeder extends Seeder
                     'code' => 'G004',
                     'type_id' => '3',
                     'name' => 'Need for Speed: Heat',
-                    'des'  => '11 Bowls available',
+                    'des'  => '1 Bowls available',
                     'unit_price' => 39.99,
+                    'quantity' => 3,
                     'image' => 'static/Products/Racing/NeedForSpeedHeat.jpg',
                     'created_at' => now(),
                     'updated_at' => now()
@@ -235,6 +251,5 @@ class ProductSeeder extends Seeder
                 // ],
             ]
         );
-
     }
 }

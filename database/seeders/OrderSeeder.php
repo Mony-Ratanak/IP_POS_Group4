@@ -20,7 +20,8 @@ class OrderSeeder extends Seeder
 
             $data[] = [
                 'receipt_number'    => $this->generateReceiptNumber(),
-                'cashier_id'        => rand (2, 11),
+                'cashier_id'        => rand(2, 11),
+                'customer_id' => rand(4, 11),
                 'total_price'       => 0,
                 'ordered_at'        => Date('Y-m-d H:i:s')
             ];
@@ -32,10 +33,10 @@ class OrderSeeder extends Seeder
         // ===>> Create Order Detail
         $orders = Order::get();
         foreach ($orders as $order) {
-            
+
             $details        = [];
-            $totalPrice     = 0; 
-            $nOfDetails     = rand(1, 6); 
+            $totalPrice     = 0;
+            $nOfDetails     = rand(1, 6);
 
             for ($i = 1; $i <= $nOfDetails; $i++) {
 
