@@ -89,7 +89,8 @@
   import { Loader } from 'lucide-vue-next';
 
 export default {
-  name: 'loginpage',
+
+  name: 'login page',
   
   components: {
     Loader,
@@ -136,10 +137,20 @@ export default {
         if (data.access_token) {
           localStorage.setItem('accessToken', data.access_token);
           localStorage.setItem('user', JSON.stringify(data.user));
-          router.push('/homepage');
+          if (data.role === 'Admin') {
+            router.push('/homepage');
+          } else if (data.role === 'Staff') {
+            router.push('/order');
+          } else {
+            // Handle other roles as needed
+            console.warn('Unhandled role:', data.role);
+            // Redirect to a default route if necessary
+            router.push('/homepage');
+          }
         } else {
           emailErrors.value.push('Login failed. Please check your credentials.');
         }
+
       } catch (error) {
         console.error('Login error:', error);
         emailErrors.value.push('Login failed. Please check your credentials.');

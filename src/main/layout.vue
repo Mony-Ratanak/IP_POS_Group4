@@ -23,10 +23,31 @@
               <p class="link-text ml-3 text-xl font-medium">Home</p>
           </RouterLink>
 
-          <RouterLink :to="{ path: '/productItem' }" :class="{ 'bg-red-500 text-white': $route.path === '/productItem', 'text-red-500': $route.path !== '/productItem' }" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
+          <!-- <RouterLink :to="{ path: '/productItem' }" :class="{ 'bg-red-500 text-white': $route.path === '/productItem', 'text-red-500': $route.path !== '/productItem' }" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
               <Boxes class="h-6 w-6 " />
               <p class="link-text ml-3 text-xl font-medium">ProductItem</p>
-          </RouterLink>
+          </RouterLink> -->
+
+          <div @click="toggleProductMenu"  class=" h-[48px] w-[230px] flex  text-red-600  justify-between pl-5 cursor-pointer items-center rounded-[15px]">
+            <div class="flex">
+              <Boxes class="h-6 w-6" />
+             <p class="link-text ml-3 text-xl font-medium">ProductItem</p>
+            </div>
+            
+            <ChevronDown></ChevronDown>
+          </div>
+          
+          <div v-if="productMenuOpen" class="ml-5">
+            <RouterLink :to="{ path: '/productItem' }" :class="{ 'bg-red-500 text-white': $route.path === '/productItem', 'text-red-500': $route.path !== '/productItem' }" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
+              <ClipboardList class="h-6 w-6" />
+              <p class="link-text ml-3 text-xl font-medium">Product</p>
+            </RouterLink>
+
+            <RouterLink :to="{ path: '/productType' }" :class="{ 'bg-red-500 text-white': $route.path === '/productType', 'text-red-500': $route.path !== '/productType' }" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
+              <ClipboardList class="h-6 w-6" />
+              <p class="link-text ml-3 text-xl font-medium">ProductType</p>
+            </RouterLink>
+          </div>
 
           <RouterLink :to="{ path: '/order' }" :class="{ 'bg-red-500 text-white': $route.path === '/order', 'text-red-500': $route.path !== '/order' }" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
               <ShoppingCart class="h-6 w-6 " />
@@ -128,7 +149,7 @@
   import { 
     BellDot, Expand, HomeIcon, LogOut, 
     RefreshCcw, SunMoon, User, UserCircle, 
-    Users,  Boxes,  ClipboardList,  UserCog, ShoppingCart } from 'lucide-vue-next';
+    Users,  Boxes,  ClipboardList,  UserCog, ShoppingCart,ChevronDown } from 'lucide-vue-next';
 
   import {
     DropdownMenu,
@@ -143,7 +164,7 @@
 
     name: 'TestComponent',
     components: {
-      HomeIcon,Users,Expand,BellDot,SunMoon,User,UserCircle,LogOut,RefreshCcw,Boxes,ClipboardList,UserCog,ShoppingCart,
+      HomeIcon,Users,Expand,BellDot,SunMoon,User,UserCircle,LogOut,RefreshCcw,Boxes,ClipboardList,UserCog,ShoppingCart,ChevronDown,
       DropdownMenu,DropdownMenuContent, DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger,
     },
     
@@ -154,6 +175,7 @@
       const isMenuOpen = ref(false);
       const file = 'http://localhost:8003/'; // Adjust this URL as needed
       const router = useRouter();
+      const productMenuOpen = ref(false);
   
       const translations = {
         profile: 'Profile',
@@ -162,11 +184,18 @@
 
       const updateUserRole = () => {
         role.value = user.value && user.value.id === 1 ? 'Admin' : 'Staff';
-        console.log(user?.value)
+        // console.log(user?.value)
       };
 
       const linkClass = (path) => {
         return router.path === path ? 'bg-red-500 text-white' : 'text-red-500';
+        // if (router.path === path) {
+        //   return 'bg-red-500 text-white';
+        // } else if (router.path === '/homepage' || router.path === '/product') {
+        //   return 'text-red-500';
+        // } else {
+        //   return '';
+        // }
       };
   
       onMounted(() => {
@@ -199,6 +228,10 @@
         isMenuOpen.value = !isMenuOpen.value;
       };
   
+      const toggleProductMenu = () => {
+        productMenuOpen.value = !productMenuOpen.value;
+      };
+
       const myProfile = () => {
         router.push('/userAccount');
       };
@@ -218,6 +251,8 @@
         logout,
         translations,
         linkClass,
+        productMenuOpen,
+        toggleProductMenu
       };
     }
   };

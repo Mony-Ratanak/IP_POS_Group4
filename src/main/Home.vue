@@ -41,14 +41,14 @@
               Total Customers
             </div>
             <div class="text-2xl font-bold text-green-500">
-              1,234
+              {{ totalCustomers }}
             </div>
           </div>        
         </div>
         
       </div>
       <div class="content flex flex-wrap gap-4 p-4 ml-[15px] ">
-        <div class="order-report bg-gray-700 rounded-lg p-4 w-[1070px] max-h-[600px] overflow-y-auto">
+        <div class="order-report bg-gray-800 rounded-lg p-4 w-[1070px] max-h-[600px] overflow-y-auto">
           <h2 class="text-xl font-bold mb-4">Order Report</h2>
           <table class="w-full ">
             <thead >
@@ -63,10 +63,11 @@
               <!-- <div  class="flex w-full"> -->
                 <tr v-for="(item, products) in lastTenOrderProducts" :key="products" class=" w-full  border-b" >
                   <td class="flex items-center pt-3 pb-3 ">
-                    <div class="customer-icon  bg-gray-500 rounded-full w-8 h-8 overflow-hidden flex justify-center">
-                      <img src="https://img.icons8.com/ios-glyphs/30/000000/user-male-circle.png" alt="Customer Icon">
+                    <div class="customer-icon  bg-gray-800 rounded-full w-8 h-8 flex justify-center">
+                      <img :src="item?.avatar ? fileUrl + item?.avatar : null"
+                      style="width:35px; height: 35px; border-radius: 50%;" alt="image">
                     </div>
-                    <span class="ml-2">Eric Jaeger</span>
+                    <span class="ml-2">{{ item.customer_name }}</span>
                   </td>
                   <td class=" text-center pt-3 ">
                     {{ item.product_name }}
@@ -125,14 +126,18 @@
               <path d="M19 11L12 18L5 11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <div class="chart flex items-center gap-4">
+          <div class="chart flex items-center gap-4 justify-center">
+            <div class="flex justify-center">
+                <div class="chart-container" style="position: relative; height:fit-content; width:fit-content">
+                    <canvas ref="pieChart"></canvas>
+                </div>
+            </div>
 
-            <div class="pie-chart w-64  h-64 ">
+            <!-- <div class="pie-chart w-64  h-64 ">
               <svg width="100%" height="100%" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="75" cy="75" r="60" stroke="#383838" stroke-width="4"  stroke-dasharray="301.59 75.40" stroke-dashoffset="" fill="none"/>
                 <circle cx="75" cy="75" r="55" stroke="#D988F0" stroke-width="4" stroke-dasharray="231.59 75.40" stroke-dashoffset="" fill="none"/>
                 <circle cx="75" cy="75" r="50" stroke="#FDC55C" stroke-width="4"/>
-                <!-- <circle cx="75" cy="75" r="45" stroke="#00BAF1" stroke-width="4"/> -->
               </svg>
             </div>
             <div class="legend flex flex-col gap-1">
@@ -151,7 +156,7 @@
                 <span>Dine In</span>
                 <span>(20 Customers)</span>
               </div>
-            </div>
+            </div> -->
           </div>
       </div>
 
@@ -162,6 +167,7 @@
 <script>
 // import Chart from 'chart.js/auto';
 import axiosClient from "@/service/GlobalApi";
+import Chart from 'chart.js/auto';
 import { CircleDollarSign,  BookMarked, Users, ChevronDown } from "lucide-vue-next";
 
 
@@ -177,6 +183,7 @@ export default {
       totalOrders: 0,
       mostOrderedProducts: [],
       lastTenOrderProducts: [],
+      totalCustomers:[],
       pieChart: null,
       pieChartData: [], // Initialize most ordered products array
       fileUrl:import.meta.env.VITE_APP_FILE_BASE_URL,
@@ -194,6 +201,7 @@ export default {
 
         this.totalRevenue = response.data.total_sale_today;
         this.totalOrders = response.data.total_orders;
+        this.totalCustomers = response.data.total_customers;
         this.mostOrderedProducts = response.data.most_ordered_products;
         this.lastTenOrderProducts = response.data.lastTenOrderProducts;
       } catch (error) {
@@ -201,6 +209,7 @@ export default {
         // Handle error scenario (e.g., show error message)
       }
     },
+    
   async fetchPieChartData() {
       try {
           // Simulating static data retrieval
@@ -216,6 +225,7 @@ export default {
           console.error('Error fetching pie chart data:', error);
       }
   },
+
   renderPieChart() {
     const ctx = this.$refs.pieChart.getContext('2d');
     this.pieChart = new Chart(ctx, {
@@ -242,5 +252,13 @@ export default {
 </script>
 
 <style scoped>
-/* No custom scoped styles needed as we are using Tailwind CSS classes */
+::-webkit-scrollbar{
+  width: 2px;
+}
+::-webkit-scrollbar{
+  background: #252836;
+}
+::-webkit-scrollbar-thumb{
+  background: linear-gradient(#252836, #e36751)
+}
 </style>

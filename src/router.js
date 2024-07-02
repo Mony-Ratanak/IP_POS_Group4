@@ -7,6 +7,7 @@ import HomePage from "./main/Home.vue";
 import productItem from "./main/productItem.vue";
 import userAccount from "./main/userAccount.vue";
 import orderDetails from "./main/OrderDetail.vue";
+import ProductType from "./main/ProductType.vue";
 
 const routes = [
   {
@@ -49,6 +50,12 @@ const routes = [
         path: "productItem",
         component: productItem,
       },
+      {
+        name: "ProductType",
+        path: "productType",
+        component: ProductType,
+      },
+
       {
         name: "UserAccount",
         path: "userAccount",

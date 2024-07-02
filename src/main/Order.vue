@@ -22,7 +22,7 @@
                 <TabsList>
                     <TabsTrigger v-for="dish in products" :key="dish?.id" :value="dish?.id">
                         <div
-                        :class="{ 'text-[#e36751] border-b-2 pb-2 border-y-[#e36751] w-[80px]' : dish.id === selectedDishId }"
+                        :class="{ 'text-red-600  border-b-2 pb-2 border-y-[#e36751] w-[80px]' : dish.id === selectedDishId }"
                         class="flex  text-white font-normal text-[16px] items-center justify-center mt-7 cursor-pointer"
                         @click="selectDish(dish?.id)"
                         >
@@ -52,33 +52,46 @@
                     </div>
                 </div>
 
-                <TabsContent v-for="dish in products" :key="dish?.id" :value="dish?.id" >
-                    <!-- v-if="dish.id === selectedDishId" -->
-                    <div  class="grid grid-cols-5 gap-4 w-full mt-5 cursor-pointer">
-
-                        <!-- v-for="product in dish.products" -->
-                        <div v-for="product in filteredProducts(dish)" :key="product.id" class="flex h-[260px] w-[192px] justify-center mt-5">
-                        <div @click="addToOrder(product)"  class=" h-[226px] w-[192px] bg-[#1F1D2B] text-white rounded-xl absolute mt-10  flex-col flex  justify-center items-center gap-1">
-
-                            <p class="w-[144px] pl-5 pt-20 font-semibold">{{ product.name }}</p>
-                            <p class="font-normal">{{ product.unit_price }}</p>
-                            <p class="text-[#3B5162]">{{ product.available }} Bowls available</p>
-
-                        </div>
-                        <img :src="product.image ? fileUrl + product.image: null" alt="food" class="h-[132px] w-[132px] relative rounded-full">
+                <TabsContent v-for="dish in products" :key="dish?.id" :value="dish?.id">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 w-full mt-5 cursor-pointer">
+                        <div
+                            v-for="product in filteredProducts(dish)"
+                            :key="product.id"
+                            class="flex justify-center mt-5"
+                        >
+                            <div @click="addToOrder(product)"
+                                class="h-[250px] w-[200px] bg-[#1F1D2B] text-white rounded-xl flex flex-col justify-center items-center gap-1 relative"
+                            >
+                                <div class="">
+                                    <img
+                                    :src="product.image ? fileUrl + product.image : null"
+                                    alt="image"
+                                    class="h-[140px] w-[140px] rounded-full mt-5 relative"
+                                    />
+                                </div>
+                                <div class="text-center mt-2">
+                                    <p class="w-full font-semibold">{{ product.name }}</p>
+                                    <p class="font-normal">{{ product.unit_price }}$</p>
+                                    <p class="text-[#3B5162]">{{ product.des }}</p>
+                                </div>
+                                
+                            </div>
                         </div>
                     </div>
                 </TabsContent>
-            </Tabs>
 
-            
-            
+            </Tabs>         
         </div>
 
         <div class="mt-[24px] ml-4 bg-[#1F1D2B] w-[26%] rounded-lg">
             <h1 class="mt-5 ml-4 text-2xl text-white font-bold">
                 Order #{{ orderNumber }}
             </h1>
+
+            <div class="flex ml-4 mt-4 mr-4 text-white font-medium gap-2 items-center">
+                <label for="customerId">Customer ID: </label>
+                <input class=" w-20 p-1 rounded-md bg-[#1F1D2B] text-white border-[#393C49]" type="number" id="customerId" name="customerId">
+            </div>
 
             <div class="flex ">
                 <div class="flex h-[40px] w-[100px] bg-[#EA7C69] items-center justify-center text-xl font-medium text-white rounded-lg mt-5 ml-4">
@@ -91,7 +104,7 @@
                     Delivery
                 </div>
                 
-            </div>
+            </div>      
 
             <div class="flex justify-between ml-4 mt-5 mr-4 text-white font-medium">
                 <p>Item</p>
@@ -104,7 +117,7 @@
 
             <hr class="ml-4 mr-4 mt-5 bg-[#393C49]">
             
-            <div class="ml-4 mt-5">
+            <div class="ml-4 mt-5 h-[300px] overflow-y-auto">
                 <div v-for="(product, index) in order" :key="index" class="flex justify-between text-white flex-col mb-2">
                     <div class="flex justify-between mb-2">
                         <div class="flex items-center">
@@ -130,14 +143,12 @@
                         </div>
                         <div class="h-[48px] w-[48px] flex justify-center items-center rounded-lg mr-3 bg-[#2D303E]">
                             <Trash2 @click="removeFromOrder(index)" class=" text-red-500 cursor-pointer"></Trash2>
-                        </div>
-                        
-                    </div>
-                    
-
+                        </div>                      
+                    </div>             
                 </div>
             </div>
-            <div class="ml-4 mt-5 ">
+
+            <div class="ml-4 mt-5">
 
                 <div class="flex items-center mt-2 justify-between">
                     <label for="discount" class="text-white mr-2">Discount: </label>
@@ -153,10 +164,13 @@
                 </p>
             </div>
 
-            <button @click="submitOrder" class="bg-[#EA7C69] text-white px-4 py-2 mt-4 ml-4 rounded-lg hover:bg-slate-400"
-            >  
-                Submit Order
-            </button>                  
+            <div class="flex  justify-center items-center mt-2">
+                <button @click="submitOrder" class="bg-[#EA7C69] text-white px-4 py-2 mt-4 ml-4 rounded-lg hover:bg-slate-400 w-[60%] "
+                    >   
+                    Submit Order
+                </button> 
+            </div>
+                             
         </div>
 
         <!-- Dialog for Order Details -->
@@ -242,6 +256,7 @@ export default {
         const fetchData = async () => {
             try {
                 const response = await axiosClient.get("/admin/pos/products");
+                //console.log("Products fetched from server:", response.data);
                 products.value = response.data;
 
                 // Set selectedDishId to the ID of the first product type
@@ -274,12 +289,28 @@ export default {
 
         const addToOrder = (product) => {
 
+            // console.log("Attempting to add product to order:", product);
 
-            const existingProduct = order.value.find(item => item.id === product.id);
-            if (existingProduct) {
-                existingProduct.quantity += 1;
+            // Check if the product quantity is greater than 0
+            if (product.quantity  > 0) {
+
+                const existingProduct = order.value.find(item => item.id === product.id);
+
+                if (existingProduct) {
+                    // Increase the quantity of the existing product
+                    existingProduct.quantity += 1;
+
+                } else {
+                    // Create a new object for the product with quantity set to 1
+                    order.value.push({ ...product, quantity: 1 });
+                }
+                // Reduce the product quantity in the products list
+                product.quantity  -= 1;
+                // console.log("Product after adding to order:", product);
+
             } else {
-                order.value.push({ ...product, quantity: 1 });
+                // You can add a message here to notify the user that the product is out of stock
+                alert("Product is out of stock");
             }
         };
 
@@ -296,20 +327,23 @@ export default {
         });
 
         const removeFromOrder = (index) => {
+
+            // Restore the product quantity in the products list when removed from the order
+            const product = order.value[index];
+            const originalProduct = products.value.find(dish => dish.products.some(p => p.id === product.id)).products.find(p => p.id === product.id);
+            originalProduct.available += product.quantity;
             order.value.splice(index, 1);
         };
 
         const submitOrder = async () => {
 
-            // const orderDetails = order.value.map(item => ({
-                
-            //     'item.id' : item.quantity,
+            const invalidProducts = order.value.filter(item => item.quantity > item.available);
 
-            //     // product_id: item.id, 
-            //     // unit_price: item.unit_price,
-            //     // qty: item.quantity,
-            // }));
-
+            if (invalidProducts.length > 0) {
+                // You can add a message here to notify the user that some products are out of stock
+                alert("Some products are out of stock");
+                return;
+            }
             // TODO: reduce is used to transform the order.value array into an object where each key is the product ID and the value is the quantity.
             const orderDetails = order.value.reduce((acc, item) => {
                 acc[item.id] = item.quantity;
@@ -327,16 +361,18 @@ export default {
                 qty: item.quantity,
                 total_price: item.unit_price * item.quantity,
             }));
-            console.log("Order details", detailedOrder); //
+            //console.log("Order details", detailedOrder); //
+            const customerId = document.getElementById('customerId').value;
 
             const payload = {
+                customer_id: customerId,
                 cashier_id: user.value.id,
                 total_price: totalWithDiscount.value,
                 cart: JSON.stringify(orderDetails), // Include the cart field
                 details: detailedOrder, // This is for printing the receipt
             };
 
-            console.log("Payload:", payload); // Debugging
+            //console.log("Payload:", payload); // Debugging
             // console.log(cart);
 
             try {
@@ -382,7 +418,8 @@ export default {
             receiptNumber: '',
             isDialogVisible,
             closeDialog,orderNumber, currentDate, orderPlaced, data, searchQuery,
-            filteredProducts
+            filteredProducts,
+
         };
     },
 };

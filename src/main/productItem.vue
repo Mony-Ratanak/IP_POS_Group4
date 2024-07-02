@@ -60,6 +60,11 @@
                       </select>
                     </div>
                     <div class="w-full">
+                      <p class="mb-2">Enter quantity</p>
+                        <input type="text" v-model="newProduct.quantity" placeholder="Enter quantity"
+                        class="h-[44px] w-full rounded-lg bg-[#252836] pl-3" />
+                    </div>
+                    <div class="w-full">
                       <p class="mb-2">Enter price</p>
                         <input type="text" v-model="newProduct.unit_price" placeholder="Enter price"
                         class="h-[44px] w-full rounded-lg bg-[#252836] pl-3" />
@@ -112,8 +117,10 @@
               </td>
               <td>{{ row.name }}</td>
               <td>{{ row.type.name }}</td>
+             
               <!-- <td>{{ row.unit_price | currency('៛') }}</td><td>{{ row.created_at | formatDate }}</td> -->
-              <td>{{ row.unit_price}} $</td>
+              <td>{{ row.quantity }}</td>
+              <td>{{ row.unit_price}} $</td>             
               <td class="pl-6">{{ row.created_at }}</td>
                   
               <td>
@@ -152,24 +159,15 @@
           </tbody>
         </table>
 
-          <!-- next page -->
-          <div class="mt-4 mb-8">
-            <nav class="block">
-              <ul class="pagination">
-                <li class="page-item">
-                  <button class="page-link" @click="previousPage">Previous</button>
-                </li>
-                <li class="page-item">
-                  <button class="page-link" @click="nextPage">NextPage</button>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
-          <!-- <div class="container-listing-products-paginator min-h-11 max-h-11" :class="{ 'flex-custom': data.length > 0 && !isLoading }">
-            <div :length="total" :page.sync="page" :items-per-page="limit" @input="onPageChanged"></div>
-          </div> -->
         </div> 
+        <div class="flex items-center justify-center gap-4 mt-4">
+            <button @click="previousPage" :disabled="page === 1" class="w-11 h-11 rounded-md flex justify-center items-center bg-[#ef1515]" :class="{ 'opacity-50 cursor-not-allowed': page === 1 }">
+                <ChevronLeft class="text-2xl font-bold text-white" />
+            </button>
+            <button @click="nextPage" :disabled="page * limit >= total" class="w-11 h-11 rounded-md flex justify-center items-center bg-[#ef1515]" :class="{ 'opacity-50 cursor-not-allowed': page * limit >= total }">
+                <ChevronRight class="text-2xl font-bold text-white" />
+            </button>
+        </div>
       </div> 
     <Sheet v-model:open="openDialog">
       <SheetContent class="bg-[#1F1D2B]">
@@ -261,7 +259,7 @@
 
 <script>
 
-  import { Search, HomeIcon, ChevronRight, Plus, MoreVertical, Eye, Key,LockKeyhole, Trash2, EllipsisVertical, SquarePen, Loader } from "lucide-vue-next";
+  import { Search, HomeIcon, ChevronRight, Plus, MoreVertical,ChevronLeft, Eye, Key,LockKeyhole, Trash2, EllipsisVertical, SquarePen, Loader } from "lucide-vue-next";
   import { Input }                from "@/components/ui/input";
   import { ref, onMounted }       from 'vue';
   import { useRouter, useRoute }  from 'vue-router';
@@ -299,7 +297,7 @@
   export default {
     name: 'productItem',
     components:{
-      Search, HomeIcon, ChevronRight, Plus, MoreVertical, Eye, Key, Trash2, EllipsisVertical,LockKeyhole,SquarePen,Loader,
+      Search, HomeIcon, ChevronRight, Plus, MoreVertical, Eye, Key, Trash2, EllipsisVertical,LockKeyhole,SquarePen,Loader,ChevronLeft,
         Input,
         DropdownMenu,
         DropdownMenuContent,
@@ -341,7 +339,8 @@
         type_id: '',
         image: null,
         unit_price: '',
-        des: ''
+        des: '',
+        quantity: '',
       });
       const router            = useRouter();
       const route             = useRoute();
@@ -354,7 +353,7 @@
       const deleteDialog = ref(false);
       const viewDialog = ref(false);
 
-      const displayedColumns = ref(['N.O', 'Code', 'Image', 'Name', 'Type', 'Unit Price', 'Created At']);
+      const displayedColumns = ref(['N.O', 'Code', 'Image', 'Name', 'Type', 'Quantity', 'Unit Price', 'Created At']);
 
       onMounted( async () => {
         listing(limit.value, page.value);
@@ -419,11 +418,13 @@
       const createProduct = async() =>{
 
           const formData = new FormData();
+
           formData.append('name', newProduct.value.name);
           formData.append('code', newProduct.value.code);
           formData.append('type_id', newProduct.value.type_id);
           formData.append('des', newProduct.value.des);
           formData.append('image', newProduct.value.image);
+          formData.append('quantity', newProduct.value.quantity);
           formData.append('unit_price', newProduct.value.unit_price);
 
           isLoading.value = true;
@@ -445,8 +446,6 @@
           // total.value += 1;
 
         await listing(limit.value, page.value);
-          //alert("product created successfully.");
-         // clearNewProductForm();
           
         }catch(err){
           console.error('Something went wrong:', err)
@@ -492,6 +491,7 @@
         try{
 
           const res = await axiosClient.get('/admin/products', {params});
+          console.log(res);
           isLoading.value = false;
 
           data.value = res.data.data;
@@ -569,20 +569,18 @@
 
       // TODO: this function for back to previous
       const previousPage = ()=>{
-        if(page.value > 1){
-          page.value -= 1;
-          listing(limit.value, page.value);
-        }
-      }
+        if (page.value > 1 && data.value.length > 0) {
+                    page.value--;
+                    listing();
+                }
+      } 
 
       // TODO: this function for next page
-      const nextPage = ()=>{
-        if(page.value < Math.ceil(total.value / limit.value)){
-          page.value += 1;
-          listing(limit.value, page.value);
-          console.log(page.value); // Log page.value after updating
+      const nextPage = async () => {
+        if (page.value < Math.ceil(total.value / limit.value)) {
+          page.value++;
+          await listing(limit.value, page.value);
         }
-        // console.log(page.value);
       }
 
       const openEditDialog = (product) => {

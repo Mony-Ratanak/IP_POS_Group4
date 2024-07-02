@@ -194,17 +194,13 @@
         </div>
 
         <!-- next page -->
-        <div class="mt-4 mb-8 w-full">
-          <nav class="">
-            <ul class="pagination flex justify-between ">
-              <li class="page-item">
-                <button class="page-link text-white  " @click="previousPage">Previous</button>
-              </li>
-              <li class="page-item">
-                <button class="page-link text-red-600" @click="nextPage">Next</button>
-              </li>
-            </ul>
-          </nav>
+        <div class="flex items-center justify-center gap-4 mt-4">
+            <button @click="previousPage" :disabled="page === 1" class="w-11 h-11 rounded-md flex justify-center items-center bg-[#ef1515]" :class="{ 'opacity-50 cursor-not-allowed': page === 1 }">
+                <ChevronLeft class="text-2xl font-bold text-white" />
+            </button>
+            <button @click="nextPage" :disabled="page * limit >= total" class="w-11 h-11 rounded-md flex justify-center items-center bg-[#ef1515]" :class="{ 'opacity-50 cursor-not-allowed': page * limit >= total }">
+                <ChevronRight class="text-2xl font-bold text-white" />
+            </button>
         </div>
       </div>
 
@@ -332,6 +328,10 @@
                 <Label class="text-gray-500">User Type:</Label>
                 <p>{{ selectedElement?.type.name }}</p>
               </div>
+              <div class="flex gap-4 items-center">
+                <Label class="text-gray-500">User_id:</Label>
+                <p>{{ selectedElement?.id }}</p>
+              </div>
             </div>
           </div>
         </DialogContent>
@@ -349,7 +349,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Search, HomeIcon, ChevronRight, Plus, Eye, Key, Trash2, EllipsisVertical, Loader } from "lucide-vue-next";
+import { Search, HomeIcon, ChevronRight, Plus, Eye, Key, Trash2, EllipsisVertical, Loader,ChevronLeft } from "lucide-vue-next";
 import {
   Sheet,
   SheetContent,
@@ -396,7 +396,7 @@ export default {
     Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger,
     DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
     AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
-    Label,Button, Dialog, DialogContent ,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger
+    Label,Button, Dialog, DialogContent ,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger, ChevronLeft
   },  
 
   data() {
@@ -424,6 +424,7 @@ export default {
       userTypes: [
         { value: 1, text: "Admin" },
         { value: 2, text: "User" },
+        { value: 3, text: "Customer" },
       ],
 
       isSearching: false,

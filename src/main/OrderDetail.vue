@@ -42,6 +42,8 @@
                     <th class="px-5 py-3 text-left text-sm text-gray-400 uppercase border-b border-gray-200">Receipt Number</th>
                     <th class="px-5 py-3 text-left text-sm text-gray-400 uppercase border-b border-gray-200">Cahier</th>
                     <th class="px-5 py-3 text-left text-sm text-gray-400 uppercase border-b border-gray-200">Total Price</th>
+                    <th class="px-5 py-3 text-left text-sm text-gray-400 uppercase border-b border-gray-200">Customer_id</th>
+                    <th class="px-5 py-3 text-left text-sm text-gray-400 uppercase border-b border-gray-200">Customer_name</th>
                     <th class="px-5 py-3 text-left text-sm text-gray-400 uppercase border-b border-gray-200">Date</th>
                 </tr>
             </thead>
@@ -52,6 +54,8 @@
                     <td class="px-5 py-3 border-b border-gray-200"># {{ item.receipt_number }}</td>
                     <td class="px-5 py-3 border-b border-gray-200">{{ item.cashier?.name }}</td>
                     <td class="px-5 py-3 border-b border-gray-200">{{ item.total_price }} $</td>
+                    <td class="px-5 py-3 border-b border-gray-200">{{ item.customer_id }}</td>
+                    <td class="px-5 py-3 border-b border-gray-200">{{ item.customer_name }}</td>
 
                     <td class="px-5 py-3 border-b border-gray-200 flex justify-between items-center">
                         {{ item.ordered_at}}
