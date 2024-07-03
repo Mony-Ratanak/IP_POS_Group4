@@ -31,7 +31,7 @@
           <div @click="toggleProductMenu"  class=" h-[48px] w-[230px] flex  text-red-600  justify-between pl-5 cursor-pointer items-center rounded-[15px]">
             <div class="flex">
               <Boxes class="h-6 w-6" />
-             <p class="link-text ml-3 text-xl font-medium">ProductItem</p>
+             <p class="link-text ml-3 text-xl font-medium">Store</p>
             </div>
             
             <ChevronDown></ChevronDown>
@@ -39,12 +39,12 @@
           
           <div v-if="productMenuOpen" class="ml-5">
             <RouterLink :to="{ path: '/productItem' }" :class="{ 'bg-red-500 text-white': $route.path === '/productItem', 'text-red-500': $route.path !== '/productItem' }" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
-              <ClipboardList class="h-6 w-6" />
+              <Package class="h-6 w-6" />
               <p class="link-text ml-3 text-xl font-medium">Product</p>
             </RouterLink>
 
             <RouterLink :to="{ path: '/productType' }" :class="{ 'bg-red-500 text-white': $route.path === '/productType', 'text-red-500': $route.path !== '/productType' }" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
-              <ClipboardList class="h-6 w-6" />
+              <Shapes class="h-6 w-6" />
               <p class="link-text ml-3 text-xl font-medium">ProductType</p>
             </RouterLink>
           </div>
@@ -149,7 +149,7 @@
   import { 
     BellDot, Expand, HomeIcon, LogOut, 
     RefreshCcw, SunMoon, User, UserCircle, 
-    Users,  Boxes,  ClipboardList,  UserCog, ShoppingCart,ChevronDown } from 'lucide-vue-next';
+    Users,  Boxes,  ClipboardList,  UserCog, ShoppingCart,ChevronDown, Package, Shapes } from 'lucide-vue-next';
 
   import {
     DropdownMenu,
@@ -164,7 +164,7 @@
 
     name: 'TestComponent',
     components: {
-      HomeIcon,Users,Expand,BellDot,SunMoon,User,UserCircle,LogOut,RefreshCcw,Boxes,ClipboardList,UserCog,ShoppingCart,ChevronDown,
+      HomeIcon,Users,Expand,BellDot,SunMoon,User,UserCircle,LogOut,RefreshCcw,Boxes,ClipboardList,UserCog,ShoppingCart,ChevronDown,Package,Shapes,
       DropdownMenu,DropdownMenuContent, DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger,
     },
     

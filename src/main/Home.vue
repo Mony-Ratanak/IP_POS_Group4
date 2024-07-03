@@ -47,9 +47,9 @@
         </div>
         
       </div>
-      <div class="content flex flex-wrap gap-4 p-4 ml-[15px] ">
-        <div class="order-report bg-gray-800 rounded-lg p-4 w-[1070px] max-h-[600px] overflow-y-auto">
-          <h2 class="text-xl font-bold mb-4">Order Report</h2>
+      <div class=" content flex flex-wrap gap-4 p-4 ml-[15px] ">
+        <div class="order-report bg-gray-700 rounded-lg p-4 w-[1070px] max-h-[640px] overflow-y-auto">
+          <h2 class="text-xl font-bold mb-4 text-[#EA7C69]">Order Report</h2>
           <table class="w-full ">
             <thead >
               <tr>
@@ -93,7 +93,7 @@
         
         <header class="flex  items-center justify-between">
           <h2 class="text-xl font-bold mb-4 text-[#EA7C69]  ">Most Ordered</h2>
-          <div class="flex mb-4 border px-2 py-3 rounded-xl">
+          <div class="flex mb-4 border px-2 py-2 rounded-xl">
             <span class="mr-2">Filter Order</span>
             <ChevronDown ></ChevronDown>
           </div>
@@ -178,6 +178,7 @@ export default {
     BookMarked,Users, CircleDollarSign, ChevronDown,
   },
   data() {
+    
     return {
       totalRevenue: 0,
       totalOrders: 0,
@@ -209,7 +210,7 @@ export default {
         // Handle error scenario (e.g., show error message)
       }
     },
-    
+
   async fetchPieChartData() {
       try {
           // Simulating static data retrieval

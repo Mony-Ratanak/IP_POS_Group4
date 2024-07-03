@@ -22,7 +22,7 @@
                 <TabsList>
                     <TabsTrigger v-for="dish in products" :key="dish?.id" :value="dish?.id">
                         <div
-                        :class="{ 'text-red-600  border-b-2 pb-2 border-y-[#e36751] w-[80px]' : dish.id === selectedDishId }"
+                        :class="{ 'text-[#e95338]  border-b-2 pb-2 border-y-[#e36751] w-[80px]' : dish.id === selectedDishId }"
                         class="flex  text-white font-normal text-[16px] items-center justify-center mt-7 cursor-pointer"
                         @click="selectDish(dish?.id)"
                         >

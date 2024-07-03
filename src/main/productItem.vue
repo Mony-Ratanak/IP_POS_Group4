@@ -169,6 +169,7 @@
             </button>
         </div>
       </div> 
+      
     <Sheet v-model:open="openDialog">
       <SheetContent class="bg-[#1F1D2B]">
         <SheetHeader >
@@ -238,14 +239,24 @@
         <AlertDialogDescription>
           <div class="flex">
              <div class=" w-[40%] items-center flex justify-center">
-              <img :src="selectedProduct.image ? fileUrl + selectedProduct?.image : null" alt="image" style="width: 250px; height: 250px;">
+              <img :src="selectedProduct.image ? fileUrl + selectedProduct?.image : null" alt="image" style="width: 200px; height: 200px;">
              </div>
              <div class=" w-[60%] ">
-                <div class="px-3 py-3   items-center text-center text-xl">{{ selectedProduct.name }}</div>
-                <div class="px-3 py-3  items-center text-center text-xl">{{ selectedProduct.code }}</div>
-                <div class="px-3 py-3  items-center text-center text-xl">{{ selectedProduct.type.name }}</div>
-                <div class="px-3 py-3  items-center text-center text-xl">{{ selectedProduct.unit_price }}</div>
-                <div class="px-3 py-3  items-center text-center text-xl">{{ selectedProduct.des }}</div>
+                <div class="px-3 py-3   items-center text-center text-xl ">
+                  name: <span class="text-gray-400">{{ selectedProduct.name }}</span>
+                </div>
+                <div class="px-3 py-3  items-center text-center text-xl"> 
+                  code: <span class="text-gray-400">{{ selectedProduct.code }}</span>
+                </div>
+                <div class="px-3 py-3  items-center text-center text-xl"> 
+                  product type: <span class="text-gray-400">{{ selectedProduct.type.name }}</span> 
+                </div>
+                <div class="px-3 py-3  items-center text-center text-xl"> 
+                  unit_price: <span class="text-gray-400">{{ selectedProduct.unit_price }}</span> 
+                </div>
+                <div class="px-3 py-3  items-center text-center text-xl"> 
+                  description: <span class="text-gray-400">{{ selectedProduct.des }}</span> 
+                </div>
              </div>
           </div>
         </AlertDialogDescription>
@@ -342,12 +353,9 @@
         des: '',
         quantity: '',
       });
-      const router            = useRouter();
-      const route             = useRoute();
 
       // TODO: select products by id
       const selectedProduct = ref(null);
-      //const selectedProduct = ref(null);
 
       const openDialog = ref(false);
       const deleteDialog = ref(false);
@@ -386,6 +394,7 @@
           const reader = new FileReader();
           reader.onload = () => {
             newProduct.value.image = reader.result;
+            // console.log(reader.result);
           };
           reader.readAsDataURL(file);
 
@@ -408,7 +417,7 @@
           const reader = new FileReader();
           reader.onload = () => {
             selectedProduct.value.image = reader.result;
-            console.log(reader.result); // Log after the result is ready
+            // console.log(reader.result); // Log after the result is ready
           };
           reader.readAsDataURL(file);
         }
@@ -419,11 +428,11 @@
 
           const formData = new FormData();
 
-          formData.append('name', newProduct.value.name);
-          formData.append('code', newProduct.value.code);
-          formData.append('type_id', newProduct.value.type_id);
-          formData.append('des', newProduct.value.des);
-          formData.append('image', newProduct.value.image);
+          formData.append('name',     newProduct.value.name);
+          formData.append('code',     newProduct.value.code);
+          formData.append('type_id',  newProduct.value.type_id);
+          formData.append('des',      newProduct.value.des);
+          formData.append('image',    newProduct.value.image);
           formData.append('quantity', newProduct.value.quantity);
           formData.append('unit_price', newProduct.value.unit_price);
 
@@ -436,32 +445,23 @@
               'Content-Type':'multipart/form-data'
             }
           });
+
+          newProduct.value.name       = '',
+          newProduct.value.code       = '',
+          newProduct.value.type_id    = '',
+          newProduct.value.image      = null,
+          newProduct.value.unit_price = '',
+          newProduct.value.des        = '',
+          newProduct.value.quantity   = '';
+
           isLoading.value = false;
-
-          // Update the data immediately without calling listing
-          data.value.push(res.data);
-          // dataSource.value = [...data.value];
-
-          // Optionally, update total and other pagination values if necessary
-          // total.value += 1;
-
-        await listing(limit.value, page.value);
+          data.value = res.data;
+          await listing(limit.value, page.value);
           
         }catch(err){
           console.error('Something went wrong:', err)
         }
 
-      }
-
-      const clearNewProductForm = ()=>{
-        newProduct.value = {
-          name: '',
-          code: '',
-          type_id: '',
-          image: null,
-          unit_price: '',
-          des: ''
-        };
       }
 
       // TODO: function for listing all the products
@@ -491,16 +491,12 @@
         try{
 
           const res = await axiosClient.get('/admin/products', {params});
-          console.log(res);
+          // console.log(res);
           isLoading.value = false;
 
           data.value = res.data.data;
 
           dataSource.value = data.value;
-          total.value = res.data.total;
-
-          page.value = res.data.correct_page;
-          // limit.value = res.data.per_page;
 
         } catch(err){
           isLoading.value = false;
@@ -635,7 +631,7 @@
         page,key,products_type,products_type_id,dataSource,
         listing,onPageChanged,displayedColumns,handleSearchInput,
         productsTypes,handleFileUpload,createProduct,newProduct,
-        clearNewProductForm,previousPage,nextPage,openDialog,openEditDialog,
+        previousPage,nextPage,openDialog,openEditDialog,
         updateProduct,selectedProduct, deletedProduct,openDeleteDialog,
         handleFileEdit,deleteDialog,viewDialog, viewProduct, openViewDialog
       };

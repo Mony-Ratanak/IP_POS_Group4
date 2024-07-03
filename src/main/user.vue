@@ -516,7 +516,7 @@ export default {
         this.data.push(response.data);
         this.newUser = { name: "", email: "", type_id: "", phone: "", password: "", image: null };
         await this.listing(this.limit, this.page);
-        alert("User created successfully.");
+        // alert("User created successfully.");
 
       } catch (error) {
         if (error.response && error.response.status === 422) {
