@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\MainController;
 use App\Models\Product\Product;
 use App\Models\Product\Type;
+use App\Services\FileUpload;
 
 class ProductTypeController extends MainController
 {
@@ -18,10 +19,11 @@ class ProductTypeController extends MainController
     {
 
         // select in product type
-        $data = Type::select('id', 'name', 'created_at')
-        ->withCount(['products as n_of_products'])
-        // ->orderBy('name', 'ASC')
-        ->get();
+        $data = Type::select('id', 'name', 'image', 'created_at')
+            ->withCount(['products as n_of_products'])
+            ->orderBy('id', 'desc')
+            // ->orderBy('name', 'ASC')
+            ->get();
 
         // response to client
         return response()->json($data, Response::HTTP_OK);
@@ -35,6 +37,7 @@ class ProductTypeController extends MainController
             $req,
             [
                 'name'             => 'required|max:20',
+
             ],
             [
                 'name.required'    => 'សូមបញ្ចូលឈ្មោះប្រភេទផលិតផល',
@@ -43,20 +46,37 @@ class ProductTypeController extends MainController
         );
 
         // save data to database
-        $product_type = new Type;
+        $product_type    = new Type;
         $product_type->name = $req->name;
-        $product_type-> save();
+        // $product_type   ->avatar    =   'static/icon/user.png';
+        $product_type->save();
+
+        // Uploading and setting the user's avatar if an image is provided in the request
+        if ($req->image) {
+
+            $image     = FileUpload::uploadFile($req->image, 'product_types', $req->fileName);
+            if ($image['url']) {
+                $product_type->image = $image['url'];
+                $product_type->save();
+            }
+        }
+
+        // Get the first record from the listing after creating a new product type
+        // $firstRecord = Type::select('id', 'name', 'image', 'created_at')
+        //     ->withCount(['products as n_of_products'])
+        //     ->first();
 
         return response()->json([
 
             // show data type that recently create
             'product_type'  => $product_type,
+            // 'firstRecord'   => $firstRecord,
             'message'       => 'ទិន្នន័យត្រូវបានបង្កើតដោយជោគជ័យ។'
 
         ], Response::HTTP_OK);
     }
 
-    public function update(Request $req , $id = 0)
+    public function update(Request $req, $id = 0)
     {
         //==============================>> Check validation
         $this->validate(
@@ -82,7 +102,17 @@ class ProductTypeController extends MainController
         if ($product_type) {
 
             $product_type->name = $req->name;
+
             $product_type->save();
+
+            // Need to create folder before storing images
+            if ($req->image) {
+                $image     = FileUpload::uploadFile($req->image, 'product_types', $req->fileName);
+                if ($image['url']) {
+                    $product_type->image = $image['url'];
+                    $product_type->save();
+                }
+            }
 
             // back up to client
             return response()->json([
@@ -91,15 +121,12 @@ class ProductTypeController extends MainController
                 'message'       => 'ប្រភេទផលិតផលត្រូវបានកែប្រែជោគជ័យ!',
                 'product_type'  => $product_type,
             ], Response::HTTP_OK);
-
-        } 
-        else { // if no
+        } else { // if no
 
             return response()->json([
                 'status'    => 'បរាជ័យ',
                 'message'   => 'ទិន្នន័យមិនត្រឹមត្រូវ',
             ], Response::HTTP_BAD_REQUEST);
-
         }
     }
 
@@ -115,7 +142,6 @@ class ProductTypeController extends MainController
                 'status'    => 'ជោគជ័យ',
                 'message'   => 'ទិន្នន័យត្រូវបានលុប'
             ], Response::HTTP_OK);
-
         } else {
 
             return response()->json([

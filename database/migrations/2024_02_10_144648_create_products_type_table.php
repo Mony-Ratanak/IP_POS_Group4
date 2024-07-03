@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('products_type', function (Blueprint $table) {
 
             $table->increments('id', true);
+            $table->string('image', 500)->nullable();
             $table->string('name', 150)->default('');
             $table->string('icon', 150)->default('');
             

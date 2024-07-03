@@ -17,36 +17,42 @@ class ProductSeeder extends Seeder
             [
                 [
                     'name' => 'Hot Dishes',
+                    'image' => 'static/Products_Type/Hot_Dishes.png',
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
 
                 [
                     'name' => 'Cold Dishes',
+                    'image' => 'static/Products_Type/Cold_Dishes.png',
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
 
                 [
                     'name' => 'Soup',
+                    'image' => 'static/Products_Type/Soup.png',
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
 
                 [
                     'name' => 'Grill',
+                    'image' => 'static/Products_Type/Grill.png',
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
 
                 [
                     'name' => 'Appetizer',
+                    'image' => 'static/Products_Type/Appetizer.png',
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
 
                 [
                     'name' => 'Dessert',
+                    'image' => 'static/Products_Type/Dessert.png',
                     'created_at' => now(),
                     'updated_at' => now()
                 ],

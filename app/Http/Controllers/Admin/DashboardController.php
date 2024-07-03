@@ -33,10 +33,10 @@ class DashboardController extends MainController
             ->select('product_id', DB::raw('SUM(qty) as total_ordered'))
             ->groupBy('product_id')
             ->orderByDesc('total_ordered')
-            ->limit(6) // Adjust limit as needed
+            ->limit(3) // Adjust limit as needed
             ->get();
 
-            $lastTenOrderProducts = DB::table('order_details')
+        $lastTenOrderProducts = DB::table('order_details')
             ->join('order', 'order_details.order_id', '=', 'order.id')
             ->join('user as customer', 'order.customer_id', '=', 'customer.id')
             ->join('product', 'order_details.product_id', '=', 'product.id')
@@ -52,7 +52,7 @@ class DashboardController extends MainController
             ->orderByDesc('order_details.id')
             ->limit(10)
             ->get();
-        
+
 
         // Fetch details for each product
         $productsDetails = [];
