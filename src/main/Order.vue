@@ -72,7 +72,7 @@
                                 <div class="text-center mt-5 h-[28%]">
                                     <p class="w-full font-semibold">{{ product.name }}</p>
                                     <p class="font-normal mt-1 text-xl">$ {{ product.unit_price }}</p>
-                                    <p class="text-[#3B5162] mt-2">{{ product.des }}</p>
+                                    <p class="text-[#3B5162] mt-2">{{ product.quantity }} Bowls available </p>
                                 </div>
                                 
                             </div>
@@ -139,7 +139,7 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <div class="h-[48px] w-[330px] flex justify-start pl-3 items-center rounded-lg bg-[#2D303E]">
-                            {{product.des}}
+                            {{product.quantity}} bowls available
                         </div>
                         <div class="h-[48px] w-[48px] flex justify-center items-center rounded-lg mr-3 bg-[#2D303E]">
                             <Trash2 @click="removeFromOrder(index)" class=" text-red-500 cursor-pointer"></Trash2>

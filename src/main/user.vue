@@ -427,7 +427,7 @@ export default {
 
       userTypes: [
         { value: 1, text: "Admin" },
-        { value: 2, text: "User" },
+        { value: 2, text: "Staff" },
         { value: 3, text: "Customer" },
       ],
 
