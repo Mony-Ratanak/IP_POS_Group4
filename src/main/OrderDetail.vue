@@ -1,4 +1,5 @@
 <template>
+<DialogRoot>
     <header class="container-listing-user-header flex gap-2 justify-between items-center py-2 px-5 mt-5 ml-4 mr-4 rounded-2xl drop-shadow-lg shadow-inner bg-[#252836]">
         <div class="flex flex-1 items-center font-medium">
             <div class="flex items-center whitespace-nowrap">
@@ -6,12 +7,12 @@
             </div>
             <div class="flex items-center ml-1 whitespace-nowrap">
                 <ChevronRight class="icon-size-4.5 text-red-500" />
-                <span class="ml-1 text-white text-xl">Order Details</span>
+                <span class="ml-1 text-gray-400 text-xl">Order Details</span>
             </div>
         </div>
         <div class="flex items-center gap-3">
             <div class="sm:flex flex justify-start items-center">
-                <Input type="text" placeholder="Search..." v-model="key" @input="handleSearchInput" class="pl-12 h-[44px] w-[230px] rounded-md bg-[#252836] text-xl border-[#393C49]" />
+                <Input type="text" placeholder="Search..." v-model="key" @input="handleSearchInput" class="pl-12 h-[44px] rounded-md bg-[#252836] text-xl border-[#393C49]" />
                 <span class="absolute px-4">
                     <Search class="text-gray-400" />
                 </span>
@@ -51,7 +52,7 @@
 
                 <tr v-for="(item, index) in data" :key="item.id" class=" text-white">
                     <td class="px-5 py-3 border-b border-gray-200">{{ index + 1 }}</td>
-                    <td class="px-5 py-3 border-b border-gray-200"># {{ item.receipt_number }}</td>
+                    <td class="px-5 py-3 border-b border-gray-200  cursor-pointer" @click="openViewDialog(item.receipt_number)"># {{ item.receipt_number }}</td>
                     <td class="px-5 py-3 border-b border-gray-200">{{ item.cashier?.name }}</td>
                     <td class="px-5 py-3 border-b border-gray-200">{{ item.total_price }} $</td>
                     <td class="px-5 py-3 border-b border-gray-200">{{ item.customer_id }}</td>
@@ -91,6 +92,31 @@
         </Table>
     </div>
 
+    <!-- view detail product  -->
+    <AlertDialog v-model:open="isViewDialogOpen">
+        <AlertDialogContent class="sm:max-h-w-[900px] bg-[#1F1D2B] text-white">
+            <AlertDialogHeader>
+                <AlertDialogTitle class="text-3xl text-center text-red-500">Order Details</AlertDialogTitle>
+                <AlertDialogDescription>
+                    <!-- Display order details here -->
+                    <div v-for="(item, index) in selectedElement" :key="item.id" class="text-white">
+                        <p class="text-xl"><strong>Product</strong> {{ index+1 }}:</p>
+                        <p class="text-xl"><strong>&nbsp;&nbsp;&nbsp;&nbsp;Name:</strong> {{ item.product.name }}</p>
+                        <p class="text-xl"><strong>&nbsp;&nbsp;&nbsp;&nbsp;Price:</strong>$ {{ item.unit_price }}</p>
+                        <p class="text-xl"><strong>&nbsp;&nbsp;&nbsp;&nbsp;Quantity:</strong> {{ item.qty }}</p>
+                    </div>
+                    <div class="flex  justify-center mt-3 items-center">
+                        <!-- <button class="flex w-[60%] justify-center px-2 py-2 border rounded-2xl hover:bg-slate-600 items-center text-red-600 text-xl" @click="closeViewDialog()">
+                            Close
+                        </button> -->
+                        <AlertDialogCancel @click="closeDeleteDialog" class="hover:bg-slate-600 w-[60%]">Cancel</AlertDialogCancel>
+                    </div>
+                    
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+        </AlertDialogContent>
+    </AlertDialog>
+
     <!-- delete user -->
     <AlertDialog v-model:open="isDeleteDialogOpen" >
         <AlertDialogContent class=" bg-[#1F1D2B]  text-white ">
@@ -114,12 +140,12 @@
             <ChevronRight class="text-2xl font-bold text-white" />
         </button>
     </div>
-
+</DialogRoot>
 </template>
 
 <script>
 
-    import { useRouter } from 'vue-router';
+    import { useRouter} from 'vue-router';
     import { Input } from "@/components/ui/input";
     import { Search, HomeIcon, ChevronRight, Plus, Loader,ChevronLeft, MoreVertical, Trash2,Printer } from "lucide-vue-next";
     import axiosClient from "@/service/GlobalApi";
@@ -147,7 +173,6 @@
         AlertDialogTitle,
         AlertDialogTrigger,
     } from '@/components/ui/alert-dialog';
-
 
     export default {
         name: "OrderDetails",
@@ -182,16 +207,18 @@
 
         setup() 
         {
-            const fileUrl = import.meta.env.VITE_APP_FILE_BASE_URL;
-            const isLoading = ref(true);
-            const data = ref([]);
-            const total = ref(0);
-            const limit = ref(10);
-            const page = ref(1);
-            const key = ref('');
-            const isDeleteDialogOpen = ref(false);
-            const selectedElement = ref(null);
-            const router = useRouter();
+            const fileUrl       = import.meta.env.VITE_APP_FILE_BASE_URL;
+            const isLoading     = ref(true);
+            const data          = ref([]);
+            const total         = ref(0);
+            const limit         = ref(10);
+            const page          = ref(1);
+            let key             = ref('');
+
+            const isViewDialogOpen      = ref(false);
+            const isDeleteDialogOpen    = ref(false);
+            const selectedElement       = ref(null);
+            const router                = useRouter();
 
             
             const closeDeleteDialog = () => {
@@ -203,6 +230,14 @@
                 isDeleteDialogOpen.value = true;
             };
 
+            const closeViewDialog = () => {
+                isViewDialogOpen.value = false;
+            };
+
+            const openViewDialog = (receiptNumber) => {
+                viewUser(receiptNumber);
+            };
+
 
             const listing = async () => {
                 isLoading.value = true;
@@ -211,8 +246,12 @@
                         page: page.value,
                         limit: limit.value,
                         key: key.value,
+                        
                     }
                 });
+
+                // console.log(key.value);
+
                 data.value = res.data.data;
                 total.value = res.data.total;
                 isLoading.value = false;
@@ -240,9 +279,11 @@
                 router.push('/order')
             }
 
-            const handleSearchInput = () => {
+            const handleSearchInput = async() => {
+
                 page.value = 1; // Reset page to 1 when searching
                 listing();
+                
             };
 
             const gotoNextPage = () => {
@@ -256,6 +297,22 @@
                 if (page.value > 1 && data.value.length > 0) {
                     page.value--;
                     listing();
+                }
+            };
+
+            const viewUser = async (receiptNumber) => {
+                try {
+                    if (!receiptNumber) {
+                        console.error('Receipt number is undefined.');
+                        return;
+                    }
+
+                    const response = await axiosClient.get(`/admin/sales/orderDetails/${receiptNumber}`);
+                    selectedElement.value = response.data.details;
+                    // console.log(selectedElement.value)
+                    isViewDialogOpen.value = true;
+                } catch (error) {
+                    console.error('Error fetching order details:', error);
                 }
             };
 
@@ -316,6 +373,10 @@
                 addToOrder,
                 downloadInvoice,
                 b64toBlob,
+                isViewDialogOpen,
+                closeViewDialog,
+                viewUser,
+                openViewDialog,
             };
         }
     };

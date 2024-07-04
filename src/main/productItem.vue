@@ -3,12 +3,12 @@
     <div class="container-listing-user-header flex gap-2 justify-between items-center py-2 px-5 mt-5 ml-4 mr-4 rounded-2xl drop-shadow-lg shadow-inner    bg-[#252836]">
       <div class="flex flex-1 items-center font-medium">
         <div class="flex items-center whitespace-nowrap">
-          <HomeIcon class=" text-white"/>
+          <HomeIcon class=" text-red-500"/>
         </div>
 
         <div class="flex items-center ml-1 whitespace-nowrap">
-          <ChevronRight class="icon-size-4.5 text-white"/>
-          <span class="ml-1 text-white text-xl">Product Item</span>
+          <ChevronRight class="icon-size-4.5 text-red-500"/>
+          <span class="ml-1 text-gray-400 text-xl">Product Item</span>
         </div>
       </div>
 
@@ -103,7 +103,7 @@
         <table :items="dataSource" class="w-full flex-col">
           <thead class=" ">
             <tr class="w-full">
-              <th v-for="column in displayedColumns" :key="column" class="text-[#EA7C69] text-lg pb-3">{{ column }}</th>
+              <th v-for="column in displayedColumns" :key="column" class="text-lg pb-3 text-gray-400">{{ column }}</th>
             </tr>
           </thead>
           <tbody class=" w-full flex-col text-white">
@@ -160,14 +160,7 @@
         </table>
 
         </div> 
-        <div class="flex items-center justify-center gap-4 mt-4">
-            <button @click="previousPage" :disabled="page === 1" class="w-11 h-11 rounded-md flex justify-center items-center bg-[#ef1515]" :class="{ 'opacity-50 cursor-not-allowed': page === 1 }">
-                <ChevronLeft class="text-2xl font-bold text-white" />
-            </button>
-            <button @click="nextPage" :disabled="page * limit >= total" class="w-11 h-11 rounded-md flex justify-center items-center bg-[#ef1515]" :class="{ 'opacity-50 cursor-not-allowed': page * limit >= total }">
-                <ChevronRight class="text-2xl font-bold text-white" />
-            </button>
-        </div>
+        
       </div> 
       
     <Sheet v-model:open="openDialog">
@@ -266,6 +259,14 @@
       </AlertDialogContent>
     </AlertDialog>
   </div>
+  <div class="flex items-center justify-center gap-4 mt-4">
+    <button @click="previousPage" :disabled="page === 1" class="w-11 h-11 rounded-md flex justify-center items-center bg-[#ef1515]" :class="{ 'opacity-50 cursor-not-allowed': page === 1 }">
+      <ChevronLeft class="text-2xl font-bold text-white" />
+    </button>
+    <button @click="nextPage" :disabled="page * limit >= total" class="w-11 h-11 rounded-md flex justify-center items-center bg-[#ef1515]" :class="{ 'opacity-50 cursor-not-allowed': page * limit >= total }">
+      <ChevronRight class="text-2xl font-bold text-white" />
+    </button>
+  </div>
 </template>
 
 <script>
@@ -273,7 +274,6 @@
   import { Search, HomeIcon, ChevronRight, Plus, MoreVertical,ChevronLeft, Eye, Key,LockKeyhole, Trash2, EllipsisVertical, SquarePen, Loader } from "lucide-vue-next";
   import { Input }                from "@/components/ui/input";
   import { ref, onMounted }       from 'vue';
-  import { useRouter, useRoute }  from 'vue-router';
   import { format }               from 'date-fns';
   import axiosClient              from "@/service/GlobalApi";
   import {
@@ -344,6 +344,7 @@
       const products_type     = ref([]);
       const products_type_id  = ref(0);
       const dataSource        = ref([]);
+
       const newProduct        = ref({
         name: '',
         code: '',
@@ -357,9 +358,9 @@
       // TODO: select products by id
       const selectedProduct = ref(null);
 
-      const openDialog = ref(false);
-      const deleteDialog = ref(false);
-      const viewDialog = ref(false);
+      const openDialog    = ref(false);
+      const deleteDialog  = ref(false);
+      const viewDialog    = ref(false);
 
       const displayedColumns = ref(['N.O', 'Code', 'Image', 'Name', 'Type', 'Quantity', 'Unit Price', 'Created At']);
 
@@ -370,6 +371,7 @@
       });
 
       const productsTypes = async() =>{
+
         try{
           const res = await axiosClient.get('/admin/products/types',{
             headers: {
@@ -378,10 +380,7 @@
           });
 
           products_type.value = res.data;
-          // console.log(products_type.value);
           // console.log(res);
-
-
         } catch(err){
           console.error('Something went wrong:', err)
         }
@@ -397,18 +396,8 @@
             // console.log(reader.result);
           };
           reader.readAsDataURL(file);
-
-          //console.log(reader.result);
         }
       }
-
-      // const onFileChange = (event)=>{
-      //   const file = event.target.files[0];
-      //   if(file){
-      //     selectedProduct.value = file;
-      //     handleFileEdit(file);
-      //   }
-      // }
 
       const handleFileEdit = (event)=>{
 
@@ -455,7 +444,7 @@
           newProduct.value.quantity   = '';
 
           isLoading.value = false;
-          data.value = res.data;
+          data.value      = res.data;
           await listing(limit.value, page.value);
           
         }catch(err){
@@ -476,6 +465,7 @@
         {
           params.key = key.value;
         }
+
         if(products_type_id.value)
         {
           params.type = products_type_id.value;
@@ -497,9 +487,9 @@
           data.value = res.data.data;
 
           dataSource.value = data.value;
+          total.value = res.data.total;
 
         } catch(err){
-          isLoading.value = false;
           console.error('Something went wrong:', err)
         }
       };
@@ -551,11 +541,11 @@
       }
 
       // TODO: this function for changes to the new page
-      const onPageChanged = (event)=>{
-        limit.value = event.itermPerPage;
-        page.value = event.page;
-        listing(limit.value, page.value);
-      };
+      // const onPageChanged = (event)=>{
+      //   limit.value = event.itermPerPage;
+      //   page.value = event.page;
+      //   listing(limit.value, page.value);
+      // };
 
       // TODO: this function for search product by name or code
       const handleSearchInput = (event) => {
@@ -564,20 +554,18 @@
       };
 
       // TODO: this function for back to previous
-      const previousPage = ()=>{
-        if (page.value > 1 && data.value.length > 0) {
-                    page.value--;
-                    listing();
-                }
-      } 
+      const previousPage = () => {
+       if (page.value > 1) {
+         page.value--;
+         listing(limit.value, page.value);
+       }
+     };
 
       // TODO: this function for next page
-      const nextPage = async () => {
-        if (page.value < Math.ceil(total.value / limit.value)) {
-          page.value++;
-          await listing(limit.value, page.value);
-        }
-      }
+      const nextPage = () => {
+        page.value++;
+        listing(limit.value, page.value);
+      };
 
       const openEditDialog = (product) => {
         selectedProduct.value = product;
@@ -629,7 +617,7 @@
       return {
         fileUrl,isLoading,data,total,limit,
         page,key,products_type,products_type_id,dataSource,
-        listing,onPageChanged,displayedColumns,handleSearchInput,
+        listing,displayedColumns,handleSearchInput,
         productsTypes,handleFileUpload,createProduct,newProduct,
         previousPage,nextPage,openDialog,openEditDialog,
         updateProduct,selectedProduct, deletedProduct,openDeleteDialog,

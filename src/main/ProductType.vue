@@ -7,7 +7,7 @@
   
         <div class="flex items-center ml-1 whitespace-nowrap">
           <ChevronRight class="icon-size-4.5 text-red-500" />
-          <span class="ml-1 text-white text-xl">Product Type</span>
+          <span class="ml-1 text-gray-400 text-xl">Product Type</span>
         </div>
       </div>
   

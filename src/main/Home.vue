@@ -1,8 +1,9 @@
 <template>
-  <div class="dashboard bg-gray-800 text-white font-sans flex">
+  <div class="dashboard bg-gray-800 text-white font-sans flex mt-2">
 
     <section>
       <div class="stats flex p-4 w-[1100px] justify-between ml-[15px]">
+
         <div class=" bg-gray-700 rounded-lg p-4  w-[330px] h-[150px] flex justify-start  items-center">
           <div class="icon bg-blue-500 rounded-full w-12 h-12 ml-8  flex items-center justify-center text-white ">
             <CircleDollarSign class=" text-white"></CircleDollarSign>
@@ -48,7 +49,7 @@
         
       </div>
       <div class=" content flex flex-wrap gap-4 p-4 ml-[15px] ">
-        <div class="order-report bg-gray-700 rounded-lg p-4 w-[1070px] max-h-[640px] overflow-y-auto">
+        <div class="order-report bg-gray-700 rounded-lg p-4 w-[1070px] max-h-[603px] overflow-y-auto">
           <h2 class="text-xl font-bold mb-4 text-[#EA7C69]">Order Report</h2>
           <table class="w-full ">
             <thead >
@@ -99,7 +100,7 @@
           </div>
         </header>
         
-        <div class="order-items flex flex-col gap-2">
+        <div class="order-items flex flex-col gap-2 ">
           <div v-for="(product, index) in mostOrderedProducts" :key="index" class="order-item flex items-center gap-2 w-full">
             <img :src="product.image ? fileUrl + product.image : null" alt="" class="h-[54px] w-[54px] rounded-full ml-5 mt-1">
             <div class="flex flex-col ml-5">
@@ -118,9 +119,9 @@
         
       </div>
 
-      <div class="most-type-order bg-gray-700 rounded-lg p-4 w-[500px] mt-5 ml-3">
+      <div class="most-type-order bg-gray-700 rounded-lg p-4 w-[500px] mt-7 ml-3">
           <h2 class="text-xl font-bold mb-4 text-[#EA7C69]">Most Type of Order</h2>
-          <div class="filter flex items-center justify-between mb-4">
+          <div class="filter flex items-center justify-between ">
             <span>Today</span>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-white stroke-current w-6 h-6">
               <path d="M19 11L12 18L5 11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -128,7 +129,7 @@
           </div>
           <div class="chart flex items-center gap-4 justify-center">
             <div class="flex justify-center">
-                <div class="chart-container" style="position: relative; height:fit-content; width:fit-content">
+                <div class="chart-container " style="position: relative; height:fit-content; width:fit-content">
                     <canvas ref="pieChart"></canvas>
                 </div>
             </div>
@@ -191,8 +192,8 @@ export default {
       
     };
   },
+
   mounted() {
-    this.fetchPieChartData();
     this.fetchDashboardData();
   },
   methods: {
@@ -205,48 +206,91 @@ export default {
         this.totalCustomers = response.data.total_customers;
         this.mostOrderedProducts = response.data.most_ordered_products;
         this.lastTenOrderProducts = response.data.lastTenOrderProducts;
+        this.renderPieChart(response.data.mostOrderedCategory);
+
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
         // Handle error scenario (e.g., show error message)
       }
     },
 
-  async fetchPieChartData() {
-      try {
-          // Simulating static data retrieval
-          const staticData = [
-          { label: 'Dine In', value: 200 },
-          { label: 'To Go', value: 122 },
-          { label: 'Delivery', value: 264 }
-          ];
+  // async fetchPieChartData() {
+  //     try {
+  //         // Simulating static data retrieval
+  //         const staticData = [
+  //         { label: 'Dine In', value: 200 },
+  //         { label: 'To Go', value: 122 },
+  //         { label: 'Delivery', value: 264 }
+  //         ];
 
-          this.pieChartData = staticData;
-          this.renderPieChart(); // Render the pie chart with static data
-      } catch (error) {
-          console.error('Error fetching pie chart data:', error);
-      }
-  },
+  //         this.pieChartData = staticData;
+  //         this.renderPieChart(); // Render the pie chart with static data
+  //     } catch (error) {
+  //         console.error('Error fetching pie chart data:', error);
+  //     }
+  // },
 
-  renderPieChart() {
-    const ctx = this.$refs.pieChart.getContext('2d');
-    this.pieChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: this.pieChartData.map(data => data.label),
-        datasets: [{
-          data: this.pieChartData.map(data => data.value),
-          backgroundColor: ['#FF5733', '#FFD700', '#357EC7'], // Example colors
-        }],
-      },
-      options: {
+  renderPieChart(mostOrderedCategory) {
+      const ctx = this.$refs.pieChart.getContext('2d');
+      const transformedData = mostOrderedCategory.map(item => ({
+        label: item.product_type_name,
+        value: item.count,
+      }));
+      this.pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: transformedData.map(data => data.label),
+          datasets: [{
+            data: transformedData.map(data => data.value),
+            backgroundColor: [
+              '#FF5733', // Orange Red
+              '#FFD700', // Gold
+              '#357EC7', // Cornflower Blue
+              '#20B2AA', // Light Sea Green
+              '#9932CC', // Dark Orchid
+              '#FF6347', // Tomato
+              '#00CED1', // Dark Turquoise
+              '#FF8C00', // Dark Orange
+              '#4682B4', // Steel Blue
+              '#6A5ACD', // Slate Blue
+            ],
+            // Example colors
+          }],
+        },
+        options: {
         responsive: true,
         maintainAspectRatio: false,
-        legend: {
-          position: 'right',
+        layout: {
+          padding: 0, // Adjust padding around the chart
+        },
+        plugins: {
+          legend: {
+            position: 'right', // Ensure legend is on the right side
+          },
         },
       },
-    });
-  },
+      });
+    },
+  // renderPieChart() {
+  //   const ctx = this.$refs.pieChart.getContext('2d');
+  //   this.pieChart = new Chart(ctx, {
+  //     type: 'pie',
+  //     data: {
+  //       labels: this.pieChartData.map(data => data.label),
+  //       datasets: [{
+  //         data: this.pieChartData.map(data => data.value),
+  //         backgroundColor: ['#FF5733', '#FFD700', '#357EC7'], // Example colors
+  //       }],
+  //     },
+  //     options: {
+  //       responsive: true,
+  //       maintainAspectRatio: false,
+  //       legend: {
+  //         position: 'right',
+  //       },
+  //     },
+  //   });
+  // },
   },
 };
 

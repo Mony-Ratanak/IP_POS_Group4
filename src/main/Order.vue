@@ -7,7 +7,7 @@
                     <h1 class="h2 font-bold text-[#e36751] text-3xl mb-2">
                         <span class=" text-white">Hello  </span>{{user?.name}}
                     </h1>
-                    <p class="text-[16px] text-white">{{ currentDate }}</p>
+                    <p class="text-[16px] text-gray-400">{{ currentDate }}</p>
                 </div>
 
                 <div class="relative max-w-sm items-center">
@@ -53,26 +53,26 @@
                 </div>
 
                 <TabsContent v-for="dish in products" :key="dish?.id" :value="dish?.id">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 w-full mt-5 cursor-pointer">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 w-full mt-5 cursor-pointer overflow-y-auto h-[600px] ">
                         <div
                             v-for="product in filteredProducts(dish)"
                             :key="product.id"
                             class="flex justify-center mt-5"
                         >
                             <div @click="addToOrder(product)"
-                                class="h-[250px] w-[200px] bg-[#1F1D2B] text-white rounded-xl flex flex-col justify-center items-center gap-1 relative"
+                                class="h-[250px] w-[200px] bg-[#1F1D2B] text-white rounded-xl flex flex-col justify-center items-center gap-1 relative mt-9"
                             >
-                                <div class="">
+                                <div class=" absolute -mt-56 ">
                                     <img
                                     :src="product.image ? fileUrl + product.image : null"
                                     alt="image"
-                                    class="h-[140px] w-[140px] rounded-full mt-5 relative"
+                                    class="h-[140px] w-[140px] rounded-full"
                                     />
                                 </div>
-                                <div class="text-center mt-2">
+                                <div class="text-center mt-5 h-[30%]">
                                     <p class="w-full font-semibold">{{ product.name }}</p>
-                                    <p class="font-normal">{{ product.unit_price }}$</p>
-                                    <p class="text-[#3B5162]">{{ product.des }}</p>
+                                    <p class="font-normal mt-1">{{ product.unit_price }}$</p>
+                                    <p class="text-[#3B5162] mt-1">{{ product.des }}</p>
                                 </div>
                                 
                             </div>
@@ -426,11 +426,13 @@ export default {
 </script>
 
 <style scoped>
-    
-    .b{
-        position: relative;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-    }
-    
+::-webkit-scrollbar{
+  width: 2px;
+}
+::-webkit-scrollbar{
+  background: #252836;
+}
+::-webkit-scrollbar-thumb{
+  background: linear-gradient(#252836, #e36751)
+}
 </style>
