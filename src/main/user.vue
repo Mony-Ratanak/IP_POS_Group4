@@ -100,11 +100,11 @@
           <span class="text-2xl"><span>No Data</span></span>
         </div>
 
-        <div class="container-listing-user-content rounded-lg flex-col mx-2 cursor-pointer"  >
+        <div class="container-listing-user-content rounded-lg flex-col mx-2 cursor-pointer mt-2"  >
           <div class="" scrollbar>
             <table class="w-full">
               <thead>
-                <tr class="flex justify-between font-medium text-xl text-[#EA7C69] mb-3">
+                <tr class="flex justify-between font-medium text-xl text-gray-400 mb-3 border-b pb-4">
                   <th>NO</th>
                   <th>Name Account</th>
                   <th>Content</th>
@@ -653,10 +653,9 @@ export default {
           },
         });
 
+        alert("updated password successfully.");
+        
         await this.listing(this.limit, this.page);
-        // Use a Promise to wait for the user to click "OK" on the alert
-
-        //alert("updated password successfully.");
         this.closeChangePasswordDialog = false;
 
       }catch (error){
