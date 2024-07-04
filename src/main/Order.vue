@@ -382,8 +382,18 @@ export default {
                 orderNumber.value = response.data.order.receipt_number;
                 orderPlaced.value = true;
                 isDialogVisible.value = true;
+
             } catch (error) {
-                console.error("There was an error submitting the order!", error);
+                if (error.response && error.response.data) {
+                    if (error.response.data.errors && error.response.data.errors.customer_id) {
+                        alert("Invalid customer ID: " + error.response.data.errors.customer_id.join(', '));
+                    } else {
+                        alert("Invalid customer ID!");
+                    }
+                } else {
+                    console.error("There was an error submitting the order!", error);
+                    alert("There was an error submitting the order!");
+                }
             }
         };
         

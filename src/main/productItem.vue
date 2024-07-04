@@ -162,7 +162,8 @@
         </div> 
         
       </div> 
-      
+    
+    <!-- updated product -->
     <Sheet v-model:open="openDialog">
       <SheetContent class="bg-[#1F1D2B]">
         <SheetHeader >
@@ -189,6 +190,11 @@
                 <option value="" disabled >Select Product Type</option>
                 <option v-for="(type) in products_type" :key="type.id" :value="type.id">{{ type.name }}</option>
               </select>
+            </div>
+            <div class="w-full">
+              <p class="mb-2">Enter quantity</p>
+              <input type="text" v-model="selectedProduct.quantity" placeholder="Enter quantity"
+              class="h-[44px] w-full rounded-lg bg-[#252836] pl-3" />
             </div>
             <div class="w-full">
               <p class="mb-2">Enter price</p>
