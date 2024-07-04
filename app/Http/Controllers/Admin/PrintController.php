@@ -136,9 +136,25 @@ class PrintController extends MainController
                             ]);
                     }
                 ])
+                ->leftJoin('user as customer', 'order.customer_id', '=', 'customer.id')
+                ->select('order.*', 'customer.name as customer_name')
                 ->where('receipt_number', $receiptNumber)  // Condition to filter by receipt number
                 ->orderBy('id', 'desc') // Order
                 ->first();  // Retrieve the first matching record
+
+            // $data = Order::select('orders.*', 'customer.name as customer_name')
+            //     ->leftJoin('users as customer', 'orders.customer_id', '=', 'customer.id')
+            //     ->with([
+            //         'cashier',
+            //         'details' => function ($query) {
+            //             $query->select('id', 'order_id', 'qty', 'product_id', 'unit_price')
+            //                 ->with(['product:id,name,image']);
+            //         }
+            //     ])
+            //     ->where('orders.receipt_number', $receiptNumber)
+            //     ->orderBy('orders.id', 'desc')
+            //     ->first();
+
 
             // Return the retrieved data
             return $data;
