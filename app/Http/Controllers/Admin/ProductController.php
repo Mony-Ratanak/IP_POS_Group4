@@ -20,22 +20,64 @@ use Psy\Readline\Hoa\Console;
 class ProductController extends MainController
 {
     //get data
+    // public function listing(Request $req)
+    // {
+
+    //     $data = Product::select('*')->with(['type']);
+
+    //     //Filter
+    //     if ($req->key && $req->key != '') {
+    //         $data = $data->where('code', 'LIKE', '%' . $req->key . '%')->Orwhere('name', 'LIKE', '%' . $req->key . '%');
+    //     }
+
+    //     if ($req->type && $req->type != 0) {
+    //         $data = $data->where('type_id', $req->type);
+    //     }
+
+    //     // Format the created_at field for each product in the collection
+    // $data->each(function ($product) {
+    //     $product->created_at = date('Y-m-d H:i:s', strtotime($product->created_at));
+    // });
+
+    //     $data = $data->orderBy('id', 'desc')
+    //         ->paginate($req->limit ? $req->limit : 10, 'per_page');
+
+    //     return response()->json($data, Response::HTTP_OK);
+    // }
+
     public function listing(Request $req)
     {
-
         $data = Product::select('*')->with(['type']);
 
-        //Filter
+        // Filter
         if ($req->key && $req->key != '') {
-            $data = $data->where('code', 'LIKE', '%' . $req->key . '%')->Orwhere('name', 'LIKE', '%' . $req->key . '%');
+            $data = $data->where('code', 'LIKE', '%' . $req->key . '%')
+                ->orWhere('name', 'LIKE', '%' . $req->key . '%');
         }
 
         if ($req->type && $req->type != 0) {
             $data = $data->where('type_id', $req->type);
         }
 
-        $data = $data->orderBy('id', 'desc')->paginate($req->limit ? $req->limit : 10, 'per_page');
-        return response()->json($data, Response::HTTP_OK);
+        // Apply ordering and pagination
+        $data = $data->orderBy('id', 'desc')->paginate($req->limit ? $req->limit : 10, ['*'], 'page');
+
+        // Transform the collection to format the dates
+        $data->getCollection()->transform(function ($product) {
+            $product->created_at_formatted = Carbon::parse($product->created_at)->format('Y-m-d H:i:s');
+            $product->updated_at_formatted = Carbon::parse($product->updated_at)->format('Y-m-d H:i:s');
+            return $product;
+        });
+
+        // Convert the data to an array and then to JSON
+        $dataArray = $data->toArray();
+        foreach ($dataArray['data'] as &$item) {
+            $item['created_at'] = $item['created_at_formatted'];
+            $item['updated_at'] = $item['updated_at_formatted'];
+            unset($item['created_at_formatted'], $item['updated_at_formatted']);
+        }
+
+        return response()->json($dataArray, Response::HTTP_OK);
     }
 
     // listing 1 product by id

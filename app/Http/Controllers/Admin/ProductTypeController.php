@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 // ================================>> Core Library
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Carbon\Carbon;
+
 
 // ================================>> Cistom Library
 use App\Http\Controllers\MainController;
@@ -19,14 +21,27 @@ class ProductTypeController extends MainController
     {
 
         // select in product type
-        $data = Type::select('id', 'name', 'image', 'created_at')
+        $types = Type::select('id', 'name', 'image', 'created_at')
             ->withCount(['products as n_of_products'])
             ->orderBy('id', 'desc')
             // ->orderBy('name', 'ASC')
             ->get();
 
+        // Transform the collection to format the dates
+        $formattedTypes = [];
+        foreach ($types as $type) {
+            $formattedType = [
+                'id' => $type->id,
+                'name' => $type->name,
+                'image' => $type->image,
+                'created_at' => Carbon::parse($type->created_at)->format('Y-m-d H:i:s'),
+                'n_of_products' => $type->n_of_products,
+            ];
+            $formattedTypes[] = $formattedType;
+        }
+
         // response to client
-        return response()->json($data, Response::HTTP_OK);
+        return response()->json($formattedTypes, Response::HTTP_OK);
     }
 
     // create new product type

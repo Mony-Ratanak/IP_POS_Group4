@@ -70,10 +70,10 @@ class ProductSeeder extends Seeder
                 [
                     'code' => 'G001',
                     'type_id' => '1',
-                    'name' => 'Super Mario Odyssey',
+                    'name' => 'Spicy seasoned seafood noodles',
                     'des'  => '12 Bowls available',
-                    'unit_price' => 49.99,
-                    'image' => 'static/Products/Platformer/SuperMarioOdyssey.jpg',
+                    'unit_price' => 3.49,
+                    'image' => 'static/Products/Hot-Dishes/image_1.png',
                     'quantity' => 3, // Set quantity as an integer
                     'created_at' => now(),
                     'updated_at' => now()
@@ -81,180 +81,367 @@ class ProductSeeder extends Seeder
                 [
                     'code' => 'G002',
                     'type_id' => '1',
-                    'name' => 'Call of Duty: Modern Warfare',
-                    'des'  => '11 Bowls available for customers',
-                    'unit_price' => 59.99,
-                    'image' => 'static/Products/Action/CallOfDutyModernWarfare.jpg',
+                    'name' => 'Salted Pasta with mushroom sauce',
+                    'des'  => '11 Bowls available',
+                    'unit_price' => 2.99,
+                    'image' => 'static/Products/Hot-Dishes/image_2.png',
                     'quantity' => 3,
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
                 [
                     'code' => 'G003',
-                    'type_id' => '2',
-                    'name' => 'The Legend of Zelda: Breath of the Wild',
+                    'type_id' => '1',
+                    'name' => 'Beef dumpling in hot and sour soup',
                     'des'  => '5 Bowls available',
-                    'unit_price' => 59.99,
+                    'unit_price' => 3.99,
                     'quantity' => 3,
-                    'image' => 'static/Products/Adventure/LegendOfZeldaBreathOfTheWild.jpg',
+                    'image' => 'static/Products/Hot-Dishes/image_3.png',
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
                 [
                     'code' => 'G004',
-                    'type_id' => '3',
-                    'name' => 'Need for Speed: Heat',
-                    'des'  => '1 Bowls available',
+                    'type_id' => '1',
+                    'name' => 'Healthy noodle with spinach leaf',
+                    'des'  => '10 Bowls available',
                     'unit_price' => 39.99,
                     'quantity' => 3,
-                    'image' => 'static/Products/Racing/NeedForSpeedHeat.jpg',
+                    'image' => 'static/Products/Hot-Dishes/image_4.png',
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
-                // [
-                //     'code' => 'G005',
-                //     'type_id' => '4',
-                //     'name' => 'Tetris Effect',
-                //     'unit_price' => 29.99,
-                //     'image' => 'static/Products/Puzzle/TetrisEffect.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G006',
-                //     'type_id' => '5',
-                //     'name' => 'The Sims 4',
-                //     'unit_price' => 39.99,
-                //     'image' => 'static/Products/Simulation/TheSims4.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G007',
-                //     'type_id' => '6',
-                //     'name' => 'Sid Meier\'s Civilization VI',
-                //     'unit_price' => 59.99,
-                //     'image' => 'static/Products/Strategy/CivilizationVI.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G008',
-                //     'type_id' => '7',
-                //     'name' => 'FIFA 22',
-                //     'unit_price' => 69.99,
-                //     'image' => 'static/Products/Sports/FIFA22.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G009',
-                //     'type_id' => '8',
-                //     'name' => 'The Witcher 3: Wild Hunt',
-                //     'unit_price' => 29.99,
-                //     'image' => 'static/Products/Role-Playing/TheWitcher3WildHunt.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G010',
-                //     'type_id' => '9',
-                //     'name' => 'Street Fighter V',
-                //     'unit_price' => 19.99,
-                //     'image' => 'static/Products/Fighting/StreetFighterV.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G011',
-                //     'type_id' => '10',
-                //     'name' => 'Celeste',
-                //     'unit_price' => 14.99,
-                //     'image' => 'static/Products/Platformer/Celeste.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G012',
-                //     'type_id' => '1',
-                //     'name' => 'Assassin\'s Creed Valhalla',
-                //     'unit_price' => 59.99,
-                //     'image' => 'static/Products/Action/AssassinsCreedValhalla.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G013',
-                //     'type_id' => '2',
-                //     'name' => 'Red Dead Redemption 2',
-                //     'unit_price' => 49.99,
-                //     'image' => 'static/Products/Adventure/RedDeadRedemption2.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G014',
-                //     'type_id' => '3',
-                //     'name' => 'Forza Horizon 5',
-                //     'unit_price' => 69.99,
-                //     'image' => 'static/Products/Racing/ForzaHorizon5.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G015',
-                //     'type_id' => '4',
-                //     'name' => 'Portal 2',
-                //     'unit_price' => 19.99,
-                //     'image' => 'static/Products/Puzzle/Portal2.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G016',
-                //     'type_id' => '5',
-                //     'name' => 'Microsoft Flight Simulator',
-                //     'unit_price' => 59.99,
-                //     'image' => 'static/Products/Simulation/MicrosoftFlightSimulator.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G017',
-                //     'type_id' => '6',
-                //     'name' => 'Total War: Three Kingdoms',
-                //     'unit_price' => 39.99,
-                //     'image' => 'static/Products/Strategy/TotalWarThreeKingdoms.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G018',
-                //     'type_id' => '7',
-                //     'name' => 'NBA 2K22',
-                //     'unit_price' => 69.99,
-                //     'image' => 'static/Products/Sports/NBA2K22.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G019',
-                //     'type_id' => '8',
-                //     'name' => 'Final Fantasy XV',
-                //     'unit_price' => 39.99,
-                //     'image' => 'static/Products/Role-Playing/FinalFantasyXV.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
-                // [
-                //     'code' => 'G020',
-                //     'type_id' => '9',
-                //     'name' => 'Mortal Kombat 11',
-                //     'unit_price' => 49.99,
-                //     'image' => 'static/Products/Fighting/MortalKombat11.jpg',
-                //     'created_at' => now(),
-                //     'updated_at' => now()
-                // ],
+                [
+                    'code' => 'G005',
+                    'type_id' => '1',
+                    'name' => 'Hot spicy fried rice with omelet',
+                    'des'  => '13 Bowls available',
+                    'unit_price' => 3.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Hot-Dishes/image_5.png',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'G006',
+                    'type_id' => '1',
+                    'name' => 'Spicy instant noodle with special omelette',
+                    'des'  => '17 Bowls available',
+                    'unit_price' => 3.59,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Hot-Dishes/image_6.png',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'G007',
+                    'type_id' => '1',
+                    'name' => 'Healthy noodle with spinach leaf',
+                    'des'  => '13 Bowls available',
+                    'unit_price' => 3.29,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Hot-Dishes/image_7.png',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'G008',
+                    'type_id' => '1',
+                    'name' => 'Hot spicy fried rice with omelet',
+                    'des'  => '13 Bowls available',
+                    'unit_price' => 3.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Hot-Dishes/image_8.png',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'G009',
+                    'type_id' => '1',
+                    'name' => 'Spicy instant noodle with special omelette',
+                    'des'  => '13 Bowls available',
+                    'unit_price' => 3.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Hot-Dishes/image_9.png',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'C001',
+                    'type_id' => '2',
+                    'name' => 'Japchae / Korean stir-fried noodles',
+                    'des'  => '20 Bowls available',
+                    'unit_price' => 2.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Cold-Dishes/image_1.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'C002',
+                    'type_id' => '2',
+                    'name' => '18 oz Round White Plastic Salad Bowl ',
+                    'des'  => '12 Bowls available',
+                    'unit_price' => 2.59,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Cold-Dishes/image_2.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'C003',
+                    'type_id' => '2',
+                    'name' => 'Paper Bowl With Tuna Salad',
+                    'des'  => '13 Bowls available',
+                    'unit_price' => 3.29,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Cold-Dishes/image_3.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'C004',
+                    'type_id' => '2',
+                    'name' => 'Paper Bowl With Asian Lunch',
+                    'des'  => '13 Bowls available',
+                    'unit_price' => 3.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Cold-Dishes/image_4.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'C005',
+                    'type_id' => '2',
+                    'name' => 'Salad Mixes',
+                    'des'  => '13 Bowls available',
+                    'unit_price' => 3.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Cold-Dishes/image_5.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'S001',
+                    'type_id' => '3',
+                    'name' => 'Cream of Mushroom Soup',
+                    'des'  => '5 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Soup/image_1.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'S002',
+                    'type_id' => '3',
+                    'name' => 'Carrot potato soup',
+                    'des'  => '7 Bowls available',
+                    'unit_price' => 5.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Soup/image_2.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'S003',
+                    'type_id' => '3',
+                    'name' => 'Dumpling (Pelmeni) Soup',
+                    'des'  => '5 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Soup/image_3.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'S004',
+                    'type_id' => '3',
+                    'name' => 'Traditional Polish Grochówka - Split Pea Soup',
+                    'des'  => '5 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Soup/image_4.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'S005',
+                    'type_id' => '3',
+                    'name' => 'Zupa Jarzynowa - Polish Vegetable Soup',
+                    'des'  => '5 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Soup/image_5.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'G001',
+                    'type_id' => '4',
+                    'name' => 'Chopped Grilled Vegetable Salad with Lemon Basil Vinaigrette',
+                    'des'  => '5 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Grill/image_1.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'G002',
+                    'type_id' => '4',
+                    'name' => 'Roasted Vege Salad with Mustard Dressing',
+                    'des'  => '6 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Grill/image_2.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'G003',
+                    'type_id' => '4',
+                    'name' => 'Everyday Italian Salad',
+                    'des'  => '7 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Grill/image_3.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'G004',
+                    'type_id' => '4',
+                    'name' => 'Vegan Cobb Salad - The Simple Veganista',
+                    'des'  => '8 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Grill/image_4.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'G005',
+                    'type_id' => '4',
+                    'name' => 'Avocado Salad with Tomato, Eggs and Cucumber',
+                    'des'  => '5 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Grill/image_5.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'A001',
+                    'type_id' => '5',
+                    'name' => 'Avocado Salad with Tomato, Eggs and Cucumber',
+                    'des'  => '5 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Appetizer/image_1.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'A002',
+                    'type_id' => '5',
+                    'name' => 'Grilled Chicken Salad Recipe - Crunchy Creamy Sweet',
+                    'des'  => '6 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Appetizer/image_2.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'A003',
+                    'type_id' => '5',
+                    'name' => 'Grilled Chicken Cobb Salad with Honey Dijon {Paleo}',
+                    'des'  => '7 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Appetizer/image_3.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'A004',
+                    'type_id' => '5',
+                    'name' => 'Best Healthy Dinner Recipes for Weight Loss',
+                    'des'  => '7 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Appetizer/image_4.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'A005',
+                    'type_id' => '5',
+                    'name' => 'Simple Miso Sesame Salmon — Kvaroy Arctic',
+                    'des'  => '8 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Appetizer/image_5.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'D001',
+                    'type_id' => '6',
+                    'name' => 'Sutlac - Turkish Rice Pudding',
+                    'des'  => '8 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Dessert/image_1.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'D002',
+                    'type_id' => '6',
+                    'name' => 'Moist Namoura (Basbousa)',
+                    'des'  => '8 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Dessert/image_2.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'D003',
+                    'type_id' => '6',
+                    'name' => 'Basbousa',
+                    'des'  => '8 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Dessert/image_3.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'D004',
+                    'type_id' => '6',
+                    'name' => 'Keskul - Turkish Almond Pudding',
+                    'des'  => '8 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Dessert/image_4.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'code' => 'D005',
+                    'type_id' => '6',
+                    'name' => 'Saffron Cardamom Baked Yogurt',
+                    'des'  => '8 Bowls available',
+                    'unit_price' => 4.49,
+                    'quantity' => 3,
+                    'image' => 'static/Products/Dessert/image_5.jpg',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+
             ]
         );
     }
