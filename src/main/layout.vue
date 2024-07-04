@@ -74,12 +74,12 @@
         <!-- Staff Links -->
         <template v-else-if="role === 'Staff'">
 
-          <RouterLink :to="{ path: '/order' }" :class="linkClass('/order')" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
+          <RouterLink :to="{ path: '/order' }" :class="{ 'bg-red-500 text-white': $route.path === '/order', 'text-red-500': $route.path !== '/order' }" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
             <ShoppingCart class="h-6 w-6" />
             <p class="link-text ml-3 text-xl font-medium">Order</p>
           </RouterLink>
 
-          <RouterLink :to="{ path: '/userAccount' }" :class="linkClass('/userAccount')" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
+          <RouterLink :to="{ path: '/userAccount' }" :class="{ 'bg-red-500 text-white': $route.path === '/userAccount', 'text-red-500': $route.path !== '/userAccount' }" class="router-link h-[48px] w-[230px] flex justify-start pl-5 cursor-pointer items-center rounded-[15px]">
             <UserCog class="h-6 w-6" />
             <p class="link-text ml-3 text-xl font-medium">User Account</p>
           </RouterLink>

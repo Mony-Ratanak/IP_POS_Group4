@@ -100,7 +100,7 @@
           </div>
         </header>
         
-        <div class="order-items flex flex-col gap-2 ">
+        <div class="order-items flex flex-col gap-2 h-[230px] overflow-y-auto ">
           <div v-for="(product, index) in mostOrderedProducts" :key="index" class="order-item flex items-center gap-2 w-full">
             <img :src="product.image ? fileUrl + product.image : null" alt="" class="h-[54px] w-[54px] rounded-full ml-5 mt-1">
             <div class="flex flex-col ml-5">
@@ -112,7 +112,7 @@
         </div>
         
         <footer class="items-center text-center">
-          <button class="view-all w-[70%] bg-purple-500 text-white px-4 py-2 rounded-md mt-5 font-bold ">
+          <button class="view-all w-[70%] hover:bg-gray-500 bg-purple-500 text-white px-4 py-2 rounded-md mt-5 font-bold " @click="gotoDetails">
             View All
           </button>
         </footer>
@@ -128,10 +128,11 @@
             </svg>
           </div>
           <div class="chart flex items-center gap-4 justify-center">
-            <div class="flex justify-center">
-                <div class="chart-container " style="position: relative; height:fit-content; width:fit-content">
-                    <canvas ref="pieChart"></canvas>
-                </div>
+            <div class="flex justify-center h-fit w-full">
+              <canvas ref="pieChart" width="280"  height="280"></canvas>
+
+                <!-- <div class="chart-container " style="position: relative; height:fit-content; width:fit-content">
+                </div> -->
             </div>
 
             <!-- <div class="pie-chart w-64  h-64 ">
@@ -170,17 +171,21 @@
 import axiosClient from "@/service/GlobalApi";
 import Chart from 'chart.js/auto';
 import { CircleDollarSign,  BookMarked, Users, ChevronDown } from "lucide-vue-next";
+import { useRouter }  from 'vue-router';
 
 
 export default {
   
   name: "Dashboard",
+
   components:{
     BookMarked,Users, CircleDollarSign, ChevronDown,
   },
+
   data() {
     
     return {
+
       totalRevenue: 0,
       totalOrders: 0,
       mostOrderedProducts: [],
@@ -189,6 +194,7 @@ export default {
       pieChart: null,
       pieChartData: [], // Initialize most ordered products array
       fileUrl:import.meta.env.VITE_APP_FILE_BASE_URL,
+      router: useRouter(),
       
     };
   },
@@ -197,6 +203,10 @@ export default {
     this.fetchDashboardData();
   },
   methods: {
+    gotoDetails() {
+      this.$router.push('/orderDetails');
+    },
+
     async fetchDashboardData() {
       try {
         const response = await axiosClient.get('/admin/dashboard');
@@ -292,6 +302,9 @@ export default {
   //   });
   // },
   },
+
+  
+
 };
 
 </script>

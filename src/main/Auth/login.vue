@@ -83,10 +83,10 @@
 </template>
 
 <script>
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import axios from 'axios';
-  import { Loader } from 'lucide-vue-next';
+  import { ref }        from 'vue';
+  import { useRouter }  from 'vue-router';
+  import axios          from 'axios';
+  import { Loader }     from 'lucide-vue-next';
 
 export default {
 

@@ -60,7 +60,7 @@
                             class="flex justify-center mt-5"
                         >
                             <div @click="addToOrder(product)"
-                                class="h-[250px] w-[200px] bg-[#1F1D2B] text-white rounded-xl flex flex-col justify-center items-center gap-1 relative mt-9"
+                                class="h-[250px] w-[200px] bg-[#1F1D2B] text-white rounded-xl flex flex-col justify-center items-center gap-1 relative mt-9 pt-1"
                             >
                                 <div class=" absolute -mt-56 ">
                                     <img
@@ -69,10 +69,10 @@
                                     class="h-[140px] w-[140px] rounded-full"
                                     />
                                 </div>
-                                <div class="text-center mt-5 h-[30%]">
+                                <div class="text-center mt-5 h-[28%]">
                                     <p class="w-full font-semibold">{{ product.name }}</p>
-                                    <p class="font-normal mt-1">{{ product.unit_price }}$</p>
-                                    <p class="text-[#3B5162] mt-1">{{ product.des }}</p>
+                                    <p class="font-normal mt-1 text-xl">$ {{ product.unit_price }}</p>
+                                    <p class="text-[#3B5162] mt-2">{{ product.des }}</p>
                                 </div>
                                 
                             </div>
@@ -90,7 +90,7 @@
 
             <div class="flex ml-4 mt-4 mr-4 text-white font-medium gap-2 items-center">
                 <label for="customerId">Customer ID: </label>
-                <input class=" w-20 p-1 rounded-md bg-[#1F1D2B] text-white border-[#393C49]" type="number" id="customerId" name="customerId">
+                <input class=" w-20 p-1 rounded-md bg-[#1F1D2B] text-white border-[#393C49] border" type="number" id="customerId" name="customerId">
             </div>
 
             <div class="flex ">
@@ -139,7 +139,7 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <div class="h-[48px] w-[330px] flex justify-start pl-3 items-center rounded-lg bg-[#2D303E]">
-                            Just order now
+                            {{product.des}}
                         </div>
                         <div class="h-[48px] w-[48px] flex justify-center items-center rounded-lg mr-3 bg-[#2D303E]">
                             <Trash2 @click="removeFromOrder(index)" class=" text-red-500 cursor-pointer"></Trash2>
