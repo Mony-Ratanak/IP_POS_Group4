@@ -295,6 +295,9 @@ class UserController extends MainController
     // block user
     public function block(Request $req, $id = 0)
     {
+        $validate = $req->validate([
+            'status' => 'required|boolean',
+        ]);
         //==============================>> Start Updating data
         // Find the user by ID and eager load the 'type' relationship
         $user = User::select('id', 'name', 'phone', 'email', 'type_id', 'avatar', 'created_at', 'is_active')
@@ -305,7 +308,9 @@ class UserController extends MainController
         if ($user) {
 
             // Toggle the 'is_active' field (block or unblock the user)
-            $user->is_active  =  !$user->is_active;
+            // $user->is_active  =  !$user->is_active;
+
+            $user->is_active = $req -> input( 'status');
             $user->save();
 
             // Return a JSON response indicating success

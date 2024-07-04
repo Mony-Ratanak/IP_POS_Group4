@@ -70,8 +70,6 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
 
-
-
 class PrintController extends MainController
 {
     //====================Global variable====================
@@ -124,7 +122,7 @@ class PrintController extends MainController
         }
     }
 
-    private function _getReceiptData($receiptNumber = 0)
+    public function _getReceiptData($receiptNumber = 0)
     {
         try {
             // Retrieve order data with specific columns and relationships from the database

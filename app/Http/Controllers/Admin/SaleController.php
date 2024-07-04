@@ -29,6 +29,39 @@ class SaleController extends MainController
         }
     }
 
+    // public function index(Request $request)
+    // {
+    //     $page = $request->query('page', 1);
+    //     $limit = $request->query('limit', 10);
+    //     $key = $request->query('key', '');
+
+    //     $sales = Order::query();
+
+    //     if (!empty($key)) {
+    //         $sales->where('receipt_number', 'LIKE', "%$key%");
+    //     }
+
+    //     // $sales = Order::query()
+    //     //     ->with(['cashier', 'customer']) // Include the cashier and customer relationships
+    //     //     ->select('orders.*', 'cashier.name as cashier_name', 'customer.name as customer_name', 'customer.id as customer_id');
+
+    //     // if (!empty($key)) {
+    //     //     $sales->where(function ($query) use ($key) {
+    //     //         $query->where('orders.receipt_number', 'LIKE', "%$key%")
+    //     //             ->orWhere('cashier.name', 'LIKE', "%$key%")
+    //     //             ->orWhere('customer.name', 'LIKE', "%$key%");
+    //     //     });
+    //     // }
+
+    //     $total = $sales->count();
+    //     $sales = $sales->skip(($page - 1) * $limit)->take($limit)->get();
+
+    //     return response()->json([
+    //         'data' => $sales,
+    //         'total' => $total,
+    //     ]);
+    // }
+
     public function listing(Request $req)
     {
         // Initialize the query to select all orders with related cashier and order details
@@ -36,9 +69,10 @@ class SaleController extends MainController
             ->with([
                 'cashier', //M:1
                 'details'   // 1:M
-            ]);
-            $data->leftJoin('user as customer', 'order.customer_id', '=', 'customer.id')
-            ->select('order.*', 'customer.name as customer_name');
+            ])
+            ->leftJoin('user as customer', 'order.customer_id', '=', 'customer.id')
+            ->select('order.*', 'customer.name as customer_name');;
+
         // ->orderBy('id', 'desc')
         // ->paginate($req->limit ? $req->limit : 10);
 
@@ -48,16 +82,18 @@ class SaleController extends MainController
             $data = $data->whereBetween('created_at', [$req->from . " 00:00:00", $req->to . " 23:59:59"]);
         }
 
-        // =========================== Search receipt number
-        // Check if receipt_number is provided, then filter orders with the specific receipt number
-        if ($req->receipt_number && $req->receipt_number != "") {
-            $data = $data->where('receipt_number', $req->receipt_number);
-        }
-
         // ========================== search filter status
         // Assuming this is meant to filter by receipt_number, use the correct condition
         if ($req->status) {
             $data = $data->where('receipt_number', $req->status);
+        }
+
+        if ($req->key) {
+            $data = $data->where(function ($query) use ($req) {
+                $query->where('order.receipt_number', 'LIKE', "%{$req->key}%")
+                    ->orWhere('customer.name', 'LIKE', "%{$req->key}%")
+                    ->orWhere('order.created_at', 'LIKE', "%{$req->key}%");
+            });
         }
 
         // ===========================>> If Not admin, get only records that this user made orders
@@ -68,7 +104,7 @@ class SaleController extends MainController
 
         // Order the results by id in descending order and apply pagination
         $data = $data->orderBy('id', 'desc')
-            ->paginate($req->limit ? $req->limit : 10);
+            ->paginate($req->limit ? $req->limit : 100);
 
         // Return the paginated result as a JSON response
         return response()->json($data, Response::HTTP_OK);
